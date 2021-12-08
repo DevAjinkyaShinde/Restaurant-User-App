@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RestaurantUserApp">
         <activity
+            android:name=".RegisterOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginOtpActivity"
             android:exported="false" />
         <activity
