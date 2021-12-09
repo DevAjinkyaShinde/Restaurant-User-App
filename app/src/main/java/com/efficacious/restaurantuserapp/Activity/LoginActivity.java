@@ -1,4 +1,4 @@
-package com.efficacious.restaurantuserapp;
+package com.efficacious.restaurantuserapp.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.efficacious.restaurantuserapp.R;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.hbb20.CountryCodePicker;
 
 public class LoginActivity extends AppCompatActivity {
@@ -21,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     Button mBtnContinue;
     TextView mBtnRegister;
 
-//    FirebaseFirestore firebaseFirestore;
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,35 +38,37 @@ public class LoginActivity extends AppCompatActivity {
         mBtnContinue = findViewById(R.id.btnContinue);
         mBtnRegister = findViewById(R.id.btnRegister);
 
-//        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         mCpp.registerCarrierNumberEditText(mMobileNumber);
         ProgressBar progressBar = findViewById(R.id.loader);
         mBtnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String mobileNumber = mMobileNumber.getText().toString();
                 if (TextUtils.isEmpty(mCpp.getFullNumberWithPlus())){
                     mMobileNumber.setError("Mobile Number");
                 }else if (!TextUtils.isEmpty(mCpp.getFullNumberWithPlus())){
                     mBtnContinue.setVisibility(View.INVISIBLE);
                     progressBar.setVisibility(View.VISIBLE);
-//                    firebaseFirestore.collection("MobileNumber")
-//                            .whereEqualTo("MobileNumber",mCpp.getFullNumberWithPlus())
-//                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                                @Override
-//                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                                    if (!value.isEmpty()){
+                    firebaseFirestore.collection("UserData")
+                            .whereEqualTo("MobileNumber",mCpp.getFullNumberWithPlus())
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                    if (!value.isEmpty()){
                                         Intent intent = new Intent(LoginActivity.this, LoginOtpActivity.class);
                                         intent.putExtra("MobileNumber",mCpp.getFullNumberWithPlus().replace(" ",""));
+                                        intent.putExtra("WithoutCCMobile", mobileNumber);
                                         startActivity(intent);
                                         finish();
-//                                    }else {
-//                                        mBtnContinue.setVisibility(View.VISIBLE);
-//                                        progressBar.setVisibility(View.INVISIBLE);
-//                                        mMobileNumber.setError("Mobile number not register");
-//                                    }
-//                                }
-//                            });
+                                    }else {
+                                        mBtnContinue.setVisibility(View.VISIBLE);
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        mMobileNumber.setError("Mobile number not register");
+                                    }
+                                }
+                            });
                 }else {
                     mBtnContinue.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);

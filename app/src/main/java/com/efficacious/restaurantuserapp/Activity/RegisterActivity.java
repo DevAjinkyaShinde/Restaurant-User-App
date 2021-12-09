@@ -1,4 +1,4 @@
-package com.efficacious.restaurantuserapp;
+package com.efficacious.restaurantuserapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.efficacious.restaurantuserapp.R;
 import com.hbb20.CountryCodePicker;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = mName.getText().toString();
+                String mobileNumber = mMobileNumber.getText().toString();
                 if (TextUtils.isEmpty(mCpp.getFullNumberWithPlus())){
                     mMobileNumber.setError("Mobile Number");
                 }else if (TextUtils.isEmpty(name)){
@@ -50,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.VISIBLE);
                     Intent intent = new Intent(RegisterActivity.this, RegisterOtpActivity.class);
                     intent.putExtra("MobileNumber",mCpp.getFullNumberWithPlus().replace(" ",""));
+                    intent.putExtra("WithoutCCMobile", mobileNumber);
                     intent.putExtra("Name",name);
                     startActivity(intent);
                     finish();
