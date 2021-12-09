@@ -168,10 +168,8 @@ public class RegisterOtpActivity extends AppCompatActivity {
     private void registerUser(String mobileNumber, String name, String withoutCCMobile) {
 
         if (!checkInternetConnection.isConnectingToInternet()){
-            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-            builder.setTitle("Internet not Available !!");
-            builder.setNegativeButton("Close",null);
-            builder.show();
+            startActivity(new Intent(RegisterOtpActivity.this,NoConnectionActivity.class));
+            finish();
         }else {
             RegisterUserDetails registerUserDetails = new RegisterUserDetails(name,null,null,withoutCCMobile,null,null,null,null,1,null,null);
 
@@ -204,10 +202,8 @@ public class RegisterOtpActivity extends AppCompatActivity {
     private void addDataOnSharedPref(String withoutCCMobile) {
 
         if (!checkInternetConnection.isConnectingToInternet()){
-            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-            builder.setTitle("Internet not Available !!");
-            builder.setNegativeButton("Close",null);
-            builder.show();
+            startActivity(new Intent(RegisterOtpActivity.this,NoConnectionActivity.class));
+            finish();
         }else{
             try {
                 Call<GetUserDetailResponse> call = RetrofitClient
