@@ -1,4 +1,4 @@
-package com.efficacious.restaurantuserapp;
+package com.efficacious.restaurantuserapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,8 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import com.efficacious.restaurantuserapp.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 
