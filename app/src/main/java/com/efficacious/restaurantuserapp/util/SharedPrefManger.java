@@ -30,7 +30,7 @@ public class SharedPrefManger {
 
     public boolean isLoggedIn(){
         sharedPreferences = context.getSharedPreferences(Constant.USER_DATA_SHARED_PREF,0);
-        return sharedPreferences.getBoolean("logged",false);
+        return sharedPreferences.getBoolean(Constant.LOGGED_IN,false);
     }
 
     public void logout(){
