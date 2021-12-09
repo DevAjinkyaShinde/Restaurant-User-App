@@ -143,10 +143,8 @@ public class LoginOtpActivity extends AppCompatActivity {
 
     private void getUserDetails() {
         if (!checkInternetConnection.isConnectingToInternet()){
-            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-            builder.setTitle("Internet not Available !!");
-            builder.setNegativeButton("Close",null);
-            builder.show();
+            startActivity(new Intent(LoginOtpActivity.this,NoConnectionActivity.class));
+            finish();
         }else{
             try {
                 Call<GetUserDetailResponse> call = RetrofitClient
