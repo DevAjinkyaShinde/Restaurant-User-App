@@ -49,17 +49,8 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onStart();
 
         if (!checkInternetConnection.isConnectingToInternet()){
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("No Internet Connection");
-            alert.setMessage("Connect to WIFI or Turn on mobile data.");
-            alert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
-                }
-            });
-            alert.show();
-
+            startActivity(new Intent(WelcomeActivity.this,NoConnectionActivity.class));
+            finish();
         }else {
             if (sharedPrefManger.isLoggedIn()){
                 button.setVisibility(View.GONE);
