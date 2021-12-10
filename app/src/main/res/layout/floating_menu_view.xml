@@ -5,6 +5,7 @@
     android:layout_height="330dp"
     android:layout_marginLeft="20dp"
     android:padding="15sp"
+    android:id="@+id/relativeLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView

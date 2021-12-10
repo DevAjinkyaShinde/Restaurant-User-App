@@ -70,8 +70,6 @@ public class MenuCategoryAdapter extends RecyclerView.Adapter<MenuCategoryAdapte
             }
         });
 
-
-
         if(menuCategoryDetail.getCatId()== isSelect ){
             holder.categoryName.setTextColor(ContextCompat.getColor(context,R.color.primary));
             holder.view.setVisibility(View.VISIBLE);
