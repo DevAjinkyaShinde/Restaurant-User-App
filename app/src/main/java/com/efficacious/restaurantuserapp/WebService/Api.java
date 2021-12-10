@@ -3,7 +3,10 @@ package com.efficacious.restaurantuserapp.WebService;
 import com.efficacious.restaurantuserapp.Model.GetUserDetailResponse;
 import com.efficacious.restaurantuserapp.Model.MenuCategoryResponse;
 import com.efficacious.restaurantuserapp.Model.MenuResponse;
+import com.efficacious.restaurantuserapp.Model.OrderDetails;
 import com.efficacious.restaurantuserapp.Model.RegisterUserDetails;
+import com.efficacious.restaurantuserapp.Model.TakeAwayOrderIdResponse;
+import com.efficacious.restaurantuserapp.Model.TakeOrderDetail;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -39,4 +42,24 @@ public interface Api {
             @Query("Cat_Id") String catId,
             @Query("Res_Id") String resId
     );
+
+    @POST("TakeOrder")
+    Call<ResponseBody> getOrder(
+            @Query("Command") String command,
+            @Body TakeOrderDetail takeOrderDetail
+    );
+
+    @POST("OrderDetails")
+    Call<ResponseBody> getOrderDetails(
+            @Query("Command") String command,
+            @Body OrderDetails orderDetails
+    );
+
+    @GET("GetTakeAwayOrder")
+    Call<TakeAwayOrderIdResponse> getTakeAwayOrderId(
+            @Query("Command") String command,
+            @Query("Res_Id") String resId,
+            @Query("TimeStamp") String timeStamp
+    );
+
 }
