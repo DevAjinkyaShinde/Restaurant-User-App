@@ -71,6 +71,14 @@ public class HomeFragment extends Fragment {
         transaction.add(R.id.recycleFragment, new RecycleViewFragment());
         transaction.commit();
 
+        view.findViewById(R.id.btnCart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment())
+                        .addToBackStack(null).commit();
+            }
+        });
+
         return view;
     }
 
