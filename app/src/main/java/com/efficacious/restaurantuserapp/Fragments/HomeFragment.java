@@ -53,7 +53,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
         checkInternetConnection = new CheckInternetConnection(getContext());
         if (!checkInternetConnection.isConnectingToInternet()){
             startActivity(new Intent(getContext(), NoConnectionActivity.class));
@@ -64,12 +63,9 @@ public class HomeFragment extends Fragment {
             recyclerView = view.findViewById(R.id.categoryRecycleView);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-
-//            CategoryId = getArguments().getString("CategoryId");
-
         }
 
-
+        //recycle view fragment bind here
         FragmentManager manager = getFragmentManager();
         transaction = manager.beginTransaction();
         transaction.add(R.id.recycleFragment, new RecycleViewFragment());

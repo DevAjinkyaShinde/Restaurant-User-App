@@ -1,16 +1,23 @@
 package com.efficacious.restaurantuserapp.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.efficacious.restaurantuserapp.Fragments.RecycleViewFragment;
+import com.efficacious.restaurantuserapp.Fragments.ViewFoodFragment;
 import com.efficacious.restaurantuserapp.Model.MenuDetail;
 import com.efficacious.restaurantuserapp.R;
 
@@ -33,17 +40,24 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.foodName.setText(menuDetail.get(position).getMenuName());
         holder.foodPrice.setText("₹" + menuDetail.get(position).getPrice());
 
-//        holder.btnAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                holder.btnAdded.setVisibility(View.VISIBLE);
-//                holder.btnAdd.setVisibility(View.GONE);
-//            }
-//        });
+        holder.btnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new ViewFoodFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("MenuName", menuDetail.get(position).getMenuName());
+                bundle.putString("Price", String.valueOf(menuDetail.get(position).getPrice()));
+                bundle.putString("Category", String.valueOf(menuDetail.get(position).getCatName()));
+                fragment.setArguments(bundle);
+                AppCompatActivity activity = (AppCompatActivity) context;
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment)
+                        .addToBackStack(null).commit();
+            }
+        });
     }
 
     @Override
@@ -55,11 +69,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
         ImageView foodImg;
         TextView foodName;
         Button foodPrice;
+        RelativeLayout btnView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             foodImg = itemView.findViewById(R.id.foodImg);
             foodName = itemView.findViewById(R.id.foodName);
             foodPrice = itemView.findViewById(R.id.foodPrice);
+            btnView = itemView.findViewById(R.id.relativeLayout);
         }
     }
 }
