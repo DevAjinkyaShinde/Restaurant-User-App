@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15sp">
+        android:padding="14sp">
         
         <androidx.cardview.widget.CardView
             android:id="@+id/foodImgLayout"
@@ -30,12 +30,12 @@
 
         <TextView
             android:id="@+id/foodName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:maxLines="1"
             android:layout_toRightOf="@id/foodImgLayout"
             android:fontFamily="@font/baloo_da"
-            android:maxLines="2"
             android:text="Ice-cream"
             android:textColor="@color/secondary"
             android:textSize="18sp"
@@ -48,6 +48,7 @@
             android:layout_below="@id/foodName"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
+            android:textSize="18sp"
             android:layout_toRightOf="@id/foodImgLayout"
             android:fontFamily="@font/candal"
             android:text="$20"
@@ -65,6 +66,7 @@
             android:background="@drawable/btn_bg"
             android:drawableRight="@drawable/ic_baseline_add_circle_24"
             android:drawablePadding="10dp"
+            android:layout_marginTop="-15dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:gravity="center"
             android:paddingStart="15dp"
@@ -81,6 +83,7 @@
             android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/foodPrice"
+            android:layout_marginTop="-15dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/ic_baseline_remove_circle_24" />

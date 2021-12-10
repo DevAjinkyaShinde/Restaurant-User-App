@@ -44,7 +44,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         //        Picasso.get().load(cartData[position].getFoodImg()).into(holder.foodImg);
         holder.foodName.setText(menuData.get(position).getMenuName());
-        holder.foodPrice.setText(String.valueOf(menuData.get(position).getPrice()));
+        holder.foodPrice.setText(String.valueOf("₹ " + menuData.get(position).getPrice()));
         holder.btnAdd.setText(String.valueOf(menuData.get(position).getQty()));
 //        int count = Integer.parseInt(holder.btnAdd.getText().toString());
 
