@@ -19,7 +19,7 @@
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="unlabeled"
         app:itemIconSize="26dp"
-        android:background="@drawable/flag_transparent"
+        android:background="#F9FCFB"
         android:layout_alignParentBottom="true"/>
 
 
