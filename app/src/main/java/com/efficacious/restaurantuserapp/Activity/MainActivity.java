@@ -34,12 +34,13 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.favorite:
                         fragment = new FavoriteFragment();
                         break;
-                    case R.id.history:
+                    case R.id.profile:
                         fragment = new ProfileFragment();
                         break;
-                    case R.id.profile:
+                    case R.id.history:
                         fragment = new HistoryFragment();
                         break;
+
                 }
 
                 if(fragment!=null){
