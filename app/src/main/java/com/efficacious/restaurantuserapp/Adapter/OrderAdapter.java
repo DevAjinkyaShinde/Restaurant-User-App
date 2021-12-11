@@ -1,7 +1,9 @@
 package com.efficacious.restaurantuserapp.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.efficacious.restaurantuserapp.Fragments.ViewOrderDetailFragment;
 import com.efficacious.restaurantuserapp.Model.GetUserWiseTakeAwayOrder;
 import com.efficacious.restaurantuserapp.R;
 import com.efficacious.restaurantuserapp.util.Constant;
@@ -37,7 +42,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.mOrderId.setText("#" + userWiseTakeAwayOrders.get(position).getOrderId());
         holder.mDate.setText(userWiseTakeAwayOrders.get(position).getCreatedDate());
         String status = userWiseTakeAwayOrders.get(position).getStatus();
@@ -63,6 +68,21 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
         }else {
             holder.mTotal.setText("₹" + total);
         }
+
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) context;
+                Fragment fragment = new ViewOrderDetailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("OrderId", String.valueOf(userWiseTakeAwayOrders.get(position).getOrderId()));
+                bundle.putString("ResId", String.valueOf(userWiseTakeAwayOrders.get(position).getResId()));
+                fragment.setArguments(bundle);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
     }
 
