@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.efficacious.restaurantuserapp.Activity.NoConnectionActivity;
@@ -37,11 +39,16 @@ public class HistoryFragment extends Fragment {
     OrderAdapter orderAdapter;
     RecyclerView recyclerView;
     SharedPreferences sharedPreferences;
+    ImageView empty;
+    TextView emptyTxt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
+
+        empty = view.findViewById(R.id.empty);
+        emptyTxt = view.findViewById(R.id.emptyTxt);
 
         sharedPreferences = getContext().getSharedPreferences(Constant.USER_DATA_SHARED_PREF,0);
         checkInternetConnection = new CheckInternetConnection(getContext());
@@ -73,6 +80,11 @@ public class HistoryFragment extends Fragment {
                 public void onResponse(Call<GetUserWiseTakeAwayOrderResponse> call, Response<GetUserWiseTakeAwayOrderResponse> response) {
                     if (response.isSuccessful()){
                         userWiseTakeAwayOrders = response.body().getGetUserWiseTakeAwayOrder();
+                        int size = userWiseTakeAwayOrders.size();
+                        if (size==0){
+                            empty.setVisibility(View.VISIBLE);
+                            emptyTxt.setVisibility(View.VISIBLE);
+                        }
                         orderAdapter = new OrderAdapter(userWiseTakeAwayOrders);
                         recyclerView.setAdapter(orderAdapter);
 

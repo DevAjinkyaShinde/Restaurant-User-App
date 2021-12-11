@@ -21,7 +21,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.efficacious.restaurantuserapp.Activity.NoConnectionActivity;
@@ -55,6 +57,8 @@ public class CartFragment extends Fragment {
     String TimeStamp;
     ProgressBar progressBar;
     Button btnOrder;
+    TextView emptyTxt;
+    ImageView empty;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +74,8 @@ public class CartFragment extends Fragment {
 
         btnOrder = view.findViewById(R.id.btnOrder);
         progressBar = view.findViewById(R.id.loader);
+        empty = view.findViewById(R.id.empty);
+        emptyTxt = view.findViewById(R.id.emptyTxt);
         checkInternetConnection = new CheckInternetConnection(getContext());
 
         int size = menuData.size();
@@ -77,6 +83,8 @@ public class CartFragment extends Fragment {
         if (size==0){
             btnOrder.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
+            empty.setVisibility(View.VISIBLE);
+            emptyTxt.setVisibility(View.VISIBLE);
         }
 
         view.findViewById(R.id.btnOrder).setOnClickListener(new View.OnClickListener() {
