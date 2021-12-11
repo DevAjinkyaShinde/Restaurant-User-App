@@ -17,4 +17,5 @@ public class Constant {
     public static String MOBILE_NUMBER = "MobileNumber";
     public static String WITHOUT_CC_MOBILE_NUMBER = "WithoutCCMobileNumber";
     public static String LOGGED_IN = "LoggedIn";
+    public static String ADDRESS_AVAILABLE = "AddressAvailable";
 }

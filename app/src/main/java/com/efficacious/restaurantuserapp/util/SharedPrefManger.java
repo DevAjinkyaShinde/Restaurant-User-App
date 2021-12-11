@@ -25,6 +25,7 @@ public class SharedPrefManger {
         editor.putString(Constant.MOBILE_NUMBER,user.get(0).getMobileNumber());
         editor.putString(Constant.WITHOUT_CC_MOBILE_NUMBER,user.get(0).getWithoutCCMobileNumber());
         editor.putBoolean(Constant.LOGGED_IN,true);
+        editor.putBoolean(Constant.ADDRESS_AVAILABLE,false);
         editor.apply();
     }
 
