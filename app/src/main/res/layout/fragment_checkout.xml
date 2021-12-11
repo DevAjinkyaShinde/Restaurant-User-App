@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.CheckoutFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:background="@color/primary"
+        android:id="@+id/header">
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:drawableStart="@drawable/ic_baseline_arrow_back_24"
+            android:drawablePadding="20dp"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/baloo_da"
+            android:gravity="center_vertical"
+            android:text="Checkout" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp">
+
+            <TextView
+                android:id="@+id/info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/candal"
+                android:text="Delivery address details"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/personalDetailsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/info"
+                android:layout_margin="10dp"
+                app:contentPadding="20dp"
+                app:cardCornerRadius="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/candal"
+                        android:text="User Name"
+                        android:textColor="@color/regular"
+                        android:textSize="18sp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/mobileNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/address"
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/baloo_da"
+                        android:text="Mobile Number"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="address line"
+                        android:layout_marginLeft="20dp"
+                        android:layout_below="@id/userName"
+                        android:maxLines="4"
+                        android:fontFamily="@font/baloo_da"
+                        tools:ignore="HardcodedText" />
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/candal"
+                android:layout_below="@id/personalDetailsLayout"
+                android:text="Delivery method"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/deliveryDetailsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/method"
+                android:layout_margin="10dp"
+                app:contentPadding="20dp"
+                app:cardCornerRadius="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/doorDelivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Door Delivery"
+                            android:fontFamily="@font/baloo_da"
+                            tools:ignore="HardcodedText" />
+
+                        <View
+                            android:id="@+id/view"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.7dp"
+                            android:background="@color/hint"/>
+                        <RadioButton
+                            android:id="@+id/pickUp"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pick up"
+                            android:checked="true"
+                            android:buttonTint="@color/primary"
+                            android:fontFamily="@font/baloo_da"
+                            tools:ignore="HardcodedText" />
+
+                    </RadioGroup>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnConfirmOrder"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Confirm Order"
+                android:fontFamily="@font/candal"
+                android:textAllCaps="false"
+                android:layout_below="@id/deliveryDetailsLayout"
+                android:layout_marginTop="50dp"
+                tools:ignore="HardcodedText" />
+
+            <ProgressBar
+                android:id="@+id/loader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/deliveryDetailsLayout"
+                android:layout_marginTop="55dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
