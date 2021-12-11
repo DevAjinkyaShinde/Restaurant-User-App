@@ -2,6 +2,7 @@ package com.efficacious.restaurantuserapp.WebService;
 
 import com.efficacious.restaurantuserapp.Model.CustomerDetailsResponse;
 import com.efficacious.restaurantuserapp.Model.GetUserDetailResponse;
+import com.efficacious.restaurantuserapp.Model.GetUserWiseTakeAwayOrderResponse;
 import com.efficacious.restaurantuserapp.Model.MenuCategoryResponse;
 import com.efficacious.restaurantuserapp.Model.MenuResponse;
 import com.efficacious.restaurantuserapp.Model.OrderDetails;
@@ -68,6 +69,13 @@ public interface Api {
             @Query("Command") String command,
             @Query("Res_id") String resId,
             @Query("MobileNo") String mobileNo
+    );
+
+    @GET("UserWiseTakeAwayOrder")
+    Call<GetUserWiseTakeAwayOrderResponse> getOrderHistory(
+            @Query("Command") String command,
+            @Query("ResId") String ResId,
+            @Query("RegisterId") String RegisterId
     );
 
 }
