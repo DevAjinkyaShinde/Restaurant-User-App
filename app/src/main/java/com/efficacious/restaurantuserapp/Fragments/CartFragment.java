@@ -39,6 +39,7 @@ import com.efficacious.restaurantuserapp.RoomDatabase.MenuDatabase;
 import com.efficacious.restaurantuserapp.WebService.RetrofitClient;
 import com.efficacious.restaurantuserapp.util.CheckInternetConnection;
 import com.efficacious.restaurantuserapp.util.Constant;
+import com.efficacious.restaurantuserapp.util.SharedPrefManger;
 
 import java.util.List;
 
@@ -52,9 +53,6 @@ public class CartFragment extends Fragment {
 
     MenuDatabase menuDatabase;
     List<MenuData> menuData;
-    CheckInternetConnection checkInternetConnection;
-    long OrderId;
-    String TimeStamp;
     ProgressBar progressBar;
     Button btnOrder;
     TextView emptyTxt;
@@ -63,7 +61,6 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
-        setLocalDatabase();
         menuData = menuDatabase.dao().getMenuListData();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.cartRecycleView);
         CartAdapter adapter = new CartAdapter(menuData);
@@ -76,7 +73,6 @@ public class CartFragment extends Fragment {
         progressBar = view.findViewById(R.id.loader);
         empty = view.findViewById(R.id.empty);
         emptyTxt = view.findViewById(R.id.emptyTxt);
-        checkInternetConnection = new CheckInternetConnection(getContext());
 
         int size = menuData.size();
 
@@ -91,160 +87,41 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constant.USER_DATA_SHARED_PREF,0);
-                int RegisterId = sharedPreferences.getInt(Constant.REGISTER_ID,0);
-                String timeStamp = String.valueOf(System.currentTimeMillis());
-                Log.d(TAG, "timeStamp: " + timeStamp);
-                TakeOrderDetail takeOrderDetail = new TakeOrderDetail(Constant.TAKEAWAY,RegisterId,0,null,1,0,1,null,"No", Constant.TAKEAWAY,timeStamp);
+                Boolean Available = sharedPreferences.getBoolean(Constant.ADDRESS_AVAILABLE,true);
 
-
-                if (!checkInternetConnection.isConnectingToInternet()){
-                    startActivity(new Intent(getContext(), NoConnectionActivity.class));
-                    getActivity().finish();
+                if (Available){
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_container,new CheckoutFragment())
+                            .addToBackStack(null)
+                            .commit();
                 }else {
-                    try {
-                        Call<ResponseBody> call = RetrofitClient
-                                .getInstance()
-                                .getApi()
-                                .getOrder("insert",takeOrderDetail);
+                    Dialog dialog = new Dialog(getContext());
+                    dialog.setContentView(R.layout.address_not_found_dialog);
+                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                    Button btnYes = dialog.findViewById(R.id.btnYes);
+                    TextView btnCancel = dialog.findViewById(R.id.btnCancel);
 
-                        call.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if (response.isSuccessful()){
-                                    Log.d(TAG, "onResponse: " + response.body().toString());
-                                    TakeAwayOrderId(timeStamp);
-                                }
-                            }
+                    btnYes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                           getFragmentManager().beginTransaction().replace(R.id.fragment_container,new UpdateProfileFragment())
+                                   .addToBackStack(null).commit();
+                            dialog.dismiss();
+                        }
+                    });
 
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toast.makeText(getContext(), "Error : " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                    }catch (Exception e){
-                        Toast.makeText(getContext(), "Api Error", Toast.LENGTH_SHORT).show();
-                    }
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
                 }
             }
         });
 
         return view;
-    }
-
-    private void TakeAwayOrderId(String timeStamp) {
-        Log.d(TAG, "timeStamp2: " + timeStamp);
-        if (!checkInternetConnection.isConnectingToInternet()){
-            startActivity(new Intent(getContext(), NoConnectionActivity.class));
-            getActivity().finish();
-        }else {
-            try {
-                Call<TakeAwayOrderIdResponse> call = RetrofitClient
-                        .getInstance()
-                        .getApi()
-                        .getTakeAwayOrderId("select","1",timeStamp);
-
-                call.enqueue(new Callback<TakeAwayOrderIdResponse>() {
-                    @Override
-                    public void onResponse(Call<TakeAwayOrderIdResponse> call, Response<TakeAwayOrderIdResponse> response) {
-                        if (response.isSuccessful()){
-                            List<GetTakeAwayOrderId> takeAwayOrderId = response.body().getGetTakeAwayOrder();
-                            int size = takeAwayOrderId.size();
-                            if (size>0){
-                                OrderId = takeAwayOrderId.get(0).getOrderId();
-                                TimeStamp = takeAwayOrderId.get(0).getTimeStamp();
-                                Log.d(TAG, "OrderId: " + OrderId);
-                                confirmOrder(menuData,checkInternetConnection);
-                            }else {
-                                Toast.makeText(getContext(), "Empty..", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<TakeAwayOrderIdResponse> call, Throwable t) {
-
-                    }
-                });
-
-            }catch (Exception e){
-                Toast.makeText(getContext(), "API Error : " + e.getMessage() , Toast.LENGTH_SHORT).show();
-            }
-        }
-
-    }
-
-    private void confirmOrder(List<MenuData> menuData, CheckInternetConnection checkInternetConnection) {
-
-        if (!checkInternetConnection.isConnectingToInternet()){
-            startActivity(new Intent(getContext(), NoConnectionActivity.class));
-            getActivity().finish();
-        }else {
-            String takeAwayOrderId = String.valueOf(OrderId);
-            int listSize = menuData.size();
-            for (int i=0;i<menuData.size();i++){
-                btnOrder.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
-                OrderDetails orderDetailsData = new OrderDetails(Integer.valueOf(takeAwayOrderId),menuData.get(i).getCategoryName(),
-                        menuData.get(i).getMenuName(),Constant.TAKEAWAY,
-                        0,menuData.get(i).getEmployeeId(),menuData.get(i).getPrice(),menuData.get(i).getQty()
-                        ,null,Constant.TAKEAWAY,Constant.TAKEAWAY,TimeStamp);
-
-                try {
-                    Call<ResponseBody> call = RetrofitClient
-                            .getInstance()
-                            .getApi()
-                            .getOrderDetails("insert",orderDetailsData);
-
-                    int finalI = i;
-
-                    call.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if (finalI == listSize-1){
-                                Dialog dialog = new Dialog(getContext());
-                                dialog.setContentView(R.layout.order_confirm_dialog);
-                                dialog.setCanceledOnTouchOutside(false);
-                                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                dialog.show();
-
-                                Button btnAddMore = dialog.findViewById(R.id.btnCheckStatus);
-                                btnAddMore.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        getFragmentManager().beginTransaction().replace(R.id.fragment_container,new HistoryFragment())
-                                                .disallowAddToBackStack()
-                                                .commit();
-                                        dialog.dismiss();
-                                    }
-                                });
-                                progressBar.setVisibility(View.GONE);
-                                btnOrder.setVisibility(View.VISIBLE);
-                                menuDatabase.dao().deleteAllData();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toast.makeText(getContext(), "Error : " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                            btnOrder.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }catch (Exception e){
-                    Toast.makeText(getContext(), "API Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                    btnOrder.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-
-    }
-
-    private void setLocalDatabase(){
-        menuDatabase = Room.databaseBuilder(getContext(), MenuDatabase.class,"MenuDB")
-                .allowMainThreadQueries().build();
     }
 
 }
