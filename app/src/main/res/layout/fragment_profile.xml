@@ -46,6 +46,17 @@
                 android:textColor="@color/black"
                 tools:ignore="HardcodedText" />
 
+            <TextView
+                android:id="@+id/btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/baloo_da"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/primary"
+                android:text="Edit Profile"
+                android:layout_alignParentRight="true"
+                tools:ignore="HardcodedText" />
+
            <androidx.cardview.widget.CardView
                android:id="@+id/personalDetailsLayout"
                android:layout_width="match_parent"
@@ -124,15 +135,102 @@
 
            </androidx.cardview.widget.CardView>
 
-            <Button
-                android:id="@+id/btnEdit"
+
+           <androidx.cardview.widget.CardView
+               android:id="@+id/faqLayout"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_below="@id/personalDetailsLayout"
+               android:layout_margin="10dp"
+               app:contentPadding="10dp"
+               app:cardCornerRadius="15dp">
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Faq"
+                       android:fontFamily="@font/candal"
+                       android:textColor="@color/regular"
+                       android:textSize="18sp"/>
+
+                   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                       android:layout_alignParentRight="true"
+                       android:layout_centerVertical="true"/>
+
+               </RelativeLayout>
+
+           </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/helpLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/baloo_da"
-                android:text="Edit Profile"
-                android:layout_marginTop="50dp"
-                android:layout_below="@id/personalDetailsLayout"
-                tools:ignore="HardcodedText" />
+                android:layout_below="@id/faqLayout"
+                android:layout_margin="10dp"
+                app:contentPadding="10dp"
+                app:cardCornerRadius="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Help"
+                        android:fontFamily="@font/candal"
+                        android:textColor="@color/regular"
+                        android:textSize="18sp"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/aboutLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/helpLayout"
+                android:layout_margin="10dp"
+                app:contentPadding="10dp"
+                app:cardCornerRadius="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="About"
+                        android:fontFamily="@font/candal"
+                        android:textColor="@color/regular"
+                        android:textSize="18sp"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
 
         </RelativeLayout>
 

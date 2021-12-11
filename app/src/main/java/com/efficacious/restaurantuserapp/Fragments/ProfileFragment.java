@@ -41,7 +41,7 @@ import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
-    Button mBtnEdit;
+    TextView mBtnEdit;
     String UserId;
 
     ImageView mProfileImg;

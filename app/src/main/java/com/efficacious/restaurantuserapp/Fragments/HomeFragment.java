@@ -19,6 +19,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.efficacious.restaurantuserapp.Activity.NoConnectionActivity;
@@ -47,6 +49,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     CheckInternetConnection checkInternetConnection;
     FragmentTransaction transaction;
+    TextView btnSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +79,14 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment())
                         .addToBackStack(null).commit();
+            }
+        });
+
+        btnSearch = view.findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Search", Toast.LENGTH_SHORT).show();
             }
         });
 

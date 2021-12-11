@@ -61,6 +61,7 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        setLocalDatabase();
         menuData = menuDatabase.dao().getMenuListData();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.cartRecycleView);
         CartAdapter adapter = new CartAdapter(menuData);
@@ -122,6 +123,11 @@ public class CartFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void setLocalDatabase(){
+        menuDatabase = Room.databaseBuilder(getContext(), MenuDatabase.class,"MenuDB")
+                .allowMainThreadQueries().build();
     }
 
 }
