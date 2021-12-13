@@ -52,6 +52,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
                 bundle.putString("MenuName", menuDetail.get(position).getMenuName());
                 bundle.putString("Price", String.valueOf(menuDetail.get(position).getPrice()));
                 bundle.putString("Category", String.valueOf(menuDetail.get(position).getCatName()));
+                bundle.putString("MenuId", String.valueOf(menuDetail.get(position).getMenuId()));
                 fragment.setArguments(bundle);
                 AppCompatActivity activity = (AppCompatActivity) context;
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment)
