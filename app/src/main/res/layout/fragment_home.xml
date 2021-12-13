@@ -41,20 +41,20 @@
         android:id="@+id/btnSearch"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:gravity="center_vertical"
         android:layout_below="@id/title"
         android:layout_marginStart="20dp"
-        android:editable="false"
         android:layout_marginTop="20dp"
-        android:textSize="18sp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/search_bg"
         android:drawableStart="@drawable/ic_baseline_search_24"
         android:drawablePadding="10dp"
+        android:editable="false"
         android:fontFamily="@font/baloo_da"
+        android:gravity="center_vertical"
         android:hint="Search"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:textSize="18sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoryRecycleView"

@@ -90,6 +90,7 @@ public class ProfileFragment extends Fragment {
                         SharedPrefManger sharedPrefManger = new SharedPrefManger(getContext());
                         sharedPrefManger.logout();
                         startActivity(new Intent(getContext(), WelcomeActivity.class));
+                        getActivity().finish();
                         dialog.dismiss();
                     }
                 });

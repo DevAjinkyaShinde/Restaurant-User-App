@@ -84,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.6dp"
                 android:background="@color/black"
-                android:layout_below="@id/foodPrice"
+                android:layout_below="@id/btnAddToCart"
                 android:layout_margin="20dp"/>
 
             <TextView
@@ -136,33 +136,34 @@
             <Button
                 android:id="@+id/btnAddToFavorite"
                 android:layout_width="match_parent"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_height="60dp"
-                android:layout_below="@id/returnPolicy"
-                android:text="Add to favorite"
+                android:layout_below="@id/foodPrice"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:drawableTint="@color/regular"
+                android:fontFamily="@font/baloo_da"
+                android:text="Add to favorite"
+                android:backgroundTint="#E8F1F5"
                 android:textAllCaps="false"
+                android:textColor="@color/secondary"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:drawableTint="@color/regular"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:textColor="@color/regular"
-                android:fontFamily="@font/baloo_da"
                 tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btnAddToCart"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Add to cart"
                 android:layout_below="@id/btnAddToFavorite"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:fontFamily="@font/baloo_da"
+                android:text="Add to cart"
                 android:textAllCaps="false"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/white"
-                android:fontFamily="@font/baloo_da"
                 tools:ignore="HardcodedText" />
 
 
