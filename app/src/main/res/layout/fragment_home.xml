@@ -32,7 +32,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/candal"
-        android:text="Delicious\nfood for you..."
+        android:text="What would you \nlike to eat ?"
         android:textColor="@color/secondary"
         android:textSize="22sp"
         tools:ignore="HardcodedText" />

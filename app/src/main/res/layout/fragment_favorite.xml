@@ -5,9 +5,38 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.FavoriteFragment">
 
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:background="@color/primary"
+        android:id="@+id/toolBar">
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:drawableStart="@drawable/ic_baseline_arrow_back_24"
+            android:drawablePadding="20dp"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/baloo_da"
+            android:gravity="center_vertical"
+            android:text="Favorite food list" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBar"
+        android:layout_margin="5dp"
+        android:id="@+id/recycleView"/>
+
     <ImageView
         android:id="@+id/empty"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/heart"
@@ -17,7 +46,7 @@
 
     <TextView
         android:id="@+id/emptyTxt"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No favorite food added yet.."
