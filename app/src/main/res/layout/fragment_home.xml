@@ -21,12 +21,12 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/candal"
+        android:textSize="16sp"
         android:text="What would you \nlike to eat ?"
         android:textColor="@color/secondary"
-        android:textSize="22sp"
         tools:ignore="HardcodedText" />
 
     <androidx.cardview.widget.CardView
@@ -51,7 +51,7 @@
     <TextView
         android:id="@+id/btnSearch"
         android:verticalScrollbarPosition="left"
-        android:layout_below="@id/title"
+        android:layout_below="@id/profileLayout"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginStart="20dp"
@@ -112,6 +112,29 @@
                 android:layout_below="@id/yourFavoriteList"
                 android:paddingLeft="15dp"
                 android:paddingTop="20dp" />
+
+            <ImageView
+                android:id="@+id/empty"
+                android:visibility="gone"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/heart"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/yourFavoriteList"
+                android:layout_marginTop="80dp"
+                android:alpha="0.4"/>
+
+            <TextView
+                android:id="@+id/emptyTxt"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No favorite food added yet.."
+                android:textColor="@color/hint"
+                android:layout_below="@id/empty"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/baloo_da"
+                tools:ignore="HardcodedText" />
 
         </RelativeLayout>
 

@@ -40,6 +40,7 @@ import com.efficacious.restaurantuserapp.RoomDatabase.FavoriteMenu;
 import com.efficacious.restaurantuserapp.RoomDatabase.FavoriteMenuDatabase;
 import com.efficacious.restaurantuserapp.WebService.RetrofitClient;
 import com.efficacious.restaurantuserapp.util.CheckInternetConnection;
+import com.efficacious.restaurantuserapp.util.Constant;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -68,6 +69,11 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         setLocalDatabase();
 
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constant.USER_DATA_SHARED_PREF,0);
+        TextView title = view.findViewById(R.id.title);
+        String name = sharedPreferences.getString(Constant.NAME,null);
+        title.setText(name + ", What would you \nlike to eat ?");
+
         checkInternetConnection = new CheckInternetConnection(getContext());
         if (!checkInternetConnection.isConnectingToInternet()){
             startActivity(new Intent(getContext(), NoConnectionActivity.class));
@@ -90,7 +96,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment())
-                        .addToBackStack(null).commit();
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
@@ -115,8 +122,14 @@ public class HomeFragment extends Fragment {
 
         favoriteMenus = favoriteMenuDatabase.favorite_menu_dao().getFavoriteMenuList();
         if (favoriteMenus.size() == 0){
-            TextView textView = view.findViewById(R.id.yourFavoriteList);
+
+            ImageView imageView = view.findViewById(R.id.empty);
+            TextView textView = view.findViewById(R.id.emptyTxt);
+            imageView.setVisibility(View.VISIBLE);
             textView.setVisibility(View.VISIBLE);
+
+            TextView textView2 = view.findViewById(R.id.yourFavoriteList);
+            textView2.setVisibility(View.VISIBLE);
             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.favoriteRecycleView);
             recyclerView.setVisibility(View.GONE);
         }

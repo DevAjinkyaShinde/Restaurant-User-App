@@ -7,6 +7,7 @@
     android:gravity="center"
     tools:context=".Activity.WelcomeActivity">
 
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie"
         android:layout_width="wrap_content"
@@ -27,10 +28,12 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/candal"
         android:gravity="center"
-        android:text="No.1 Fastest\nDelivery Food For You"
+        android:text="E-Smart Restaurant \nUser App"
         android:textColor="@color/secondary"
         android:textSize="22sp"
         tools:ignore="HardcodedText" />
+
+<!--    No.1 Fastest\nDelivery Food For You-->
 
     <TextView
         android:id="@+id/text2"

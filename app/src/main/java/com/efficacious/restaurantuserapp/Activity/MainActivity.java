@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.efficacious.restaurantuserapp.Fragments.CartFragment;
 import com.efficacious.restaurantuserapp.Fragments.FavoriteFragment;
@@ -42,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.navBar);
         BadgeDrawable badgeDrawable = bottomNavigationView.getBadge(R.id.cart);
         int size = menuData.size();
-
-        if (badgeDrawable == null)
-            bottomNavigationView.getOrCreateBadge(R.id.cart);
-
+        if (size>0){
+            if (badgeDrawable == null)
+                bottomNavigationView.getOrCreateBadge(R.id.cart);
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

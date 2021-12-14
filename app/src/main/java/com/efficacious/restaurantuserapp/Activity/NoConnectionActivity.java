@@ -40,5 +40,12 @@ public class NoConnectionActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        findViewById(R.id.btnClose).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }
