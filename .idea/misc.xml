@@ -19,9 +19,10 @@
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/activity_welcome.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/add_cart_dialog.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/address_not_found_dialog.xml" value="0.25" />
+        <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/cart_badge.xml" value="0.72" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/cart_view.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/category_list_view.xml" value="0.25" />
-        <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/favorite_menu_view.xml" value="0.25" />
+        <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/favorite_menu_view.xml" value="0.264" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/floating_menu_view.xml" value="0.536" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_cart.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_checkout.xml" value="0.25" />
@@ -30,13 +31,17 @@
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_recycle_view.xml" value="0.25" />
+        <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_search.xml" value="0.25" />
+        <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_search_menu.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_update_profile.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_view_food.xml" value="0.264" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_view_order_detail.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/logout_dialog.xml" value="0.25" />
+        <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/menu_view.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/order_confirm_dialog.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/order_detail_view.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/order_view.xml" value="0.25" />
+        <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/search_view.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
       </map>
     </option>

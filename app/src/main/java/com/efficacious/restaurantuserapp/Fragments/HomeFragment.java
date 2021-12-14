@@ -8,23 +8,27 @@ import android.os.Bundle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.efficacious.restaurantuserapp.Activity.NoConnectionActivity;
 import com.efficacious.restaurantuserapp.Activity.WelcomeActivity;
+import com.efficacious.restaurantuserapp.Adapter.FavoriteAdapter;
 import com.efficacious.restaurantuserapp.Adapter.MenuAdapter;
 import com.efficacious.restaurantuserapp.Adapter.MenuCategoryAdapter;
 import com.efficacious.restaurantuserapp.Model.MenuCategoryDetail;
@@ -32,8 +36,12 @@ import com.efficacious.restaurantuserapp.Model.MenuCategoryResponse;
 import com.efficacious.restaurantuserapp.Model.MenuDetail;
 import com.efficacious.restaurantuserapp.Model.MenuResponse;
 import com.efficacious.restaurantuserapp.R;
+import com.efficacious.restaurantuserapp.RoomDatabase.FavoriteMenu;
+import com.efficacious.restaurantuserapp.RoomDatabase.FavoriteMenuDatabase;
 import com.efficacious.restaurantuserapp.WebService.RetrofitClient;
 import com.efficacious.restaurantuserapp.util.CheckInternetConnection;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +59,14 @@ public class HomeFragment extends Fragment {
     FragmentTransaction transaction;
     TextView btnSearch;
 
+    FavoriteMenuDatabase favoriteMenuDatabase;
+    List<FavoriteMenu> favoriteMenus;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        setLocalDatabase();
 
         checkInternetConnection = new CheckInternetConnection(getContext());
         if (!checkInternetConnection.isConnectingToInternet()){
@@ -86,9 +98,34 @@ public class HomeFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Search", Toast.LENGTH_SHORT).show();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
+
+        view.findViewById(R.id.profileLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfileFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        favoriteMenus = favoriteMenuDatabase.favorite_menu_dao().getFavoriteMenuList();
+        if (favoriteMenus.size() == 0){
+            TextView textView = view.findViewById(R.id.yourFavoriteList);
+            textView.setVisibility(View.VISIBLE);
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.favoriteRecycleView);
+            recyclerView.setVisibility(View.GONE);
+        }
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.favoriteRecycleView);
+        FavoriteAdapter adapter = new FavoriteAdapter(favoriteMenus);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         return view;
     }
@@ -148,5 +185,10 @@ public class HomeFragment extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    private void setLocalDatabase(){
+        favoriteMenuDatabase = Room.databaseBuilder(getContext(), FavoriteMenuDatabase.class,"FavoriteMenuDB")
+                .allowMainThreadQueries().build();
     }
 }

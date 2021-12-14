@@ -7,9 +7,9 @@
         android:icon="@drawable/home"
         tools:ignore="HardcodedText" />
 
-    <item android:id="@+id/favorite"
-        android:title="Favorite"
-        android:icon="@drawable/favorite"
+    <item android:id="@+id/cart"
+        android:title="Cart"
+        android:icon="@drawable/cart"
         tools:ignore="HardcodedText" />
 
     <item android:id="@+id/profile"

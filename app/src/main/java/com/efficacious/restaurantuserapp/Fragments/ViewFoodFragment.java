@@ -99,6 +99,9 @@ public class ViewFoodFragment extends Fragment {
                 btnAddMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        getFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment())
+                                .addToBackStack(null)
+                                .commit();
                         dialog.dismiss();
                     }
                 });
