@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,15 +78,19 @@ public class SearchFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 //after the change calling the method and passing the search input
-                filter(editable.toString());
+                filter(editable.toString(),view);
             }
         });
 
         return view;
     }
 
-    private void filter(String text) {
+    private void filter(String text, View view) {
+        ImageView imageView = view.findViewById(R.id.empty);
+        TextView textView = view.findViewById(R.id.emptyTxt);
+
         List<MenuCategoryDetail> temp = new ArrayList();
+
         for(MenuCategoryDetail menuCat: menuCategoryDetails){
             //or use .equal(text) with you want equal match
             //use .toLowerCase() for better matches
@@ -95,6 +100,14 @@ public class SearchFragment extends Fragment {
         }
         //update recyclerview
         adapter.updateList(temp);
+        if (temp.size() == 0){
+            imageView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
+            temp.clear();
+        }else {
+            imageView.setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
+        }
     }
 
     private void categoryList() {

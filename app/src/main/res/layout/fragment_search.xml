@@ -24,4 +24,27 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/search"/>
 
+    <ImageView
+        android:id="@+id/empty"
+        android:visibility="gone"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_baseline_search_24"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:alpha="0.4"/>
+
+    <TextView
+        android:id="@+id/emptyTxt"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category not found"
+        android:textColor="@color/hint"
+        android:layout_below="@id/empty"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:fontFamily="@font/baloo_da"
+        tools:ignore="HardcodedText" />
+
 </RelativeLayout>
