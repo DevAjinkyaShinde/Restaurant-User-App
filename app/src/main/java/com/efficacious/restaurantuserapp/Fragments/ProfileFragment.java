@@ -145,6 +145,14 @@ public class ProfileFragment extends Fragment {
             }
         }
 
+        view.findViewById(R.id.personalDetailsLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new UpdateProfileFragment())
+                        .addToBackStack(null).commit();
+            }
+        });
+
         return view;
     }
 }
