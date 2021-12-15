@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,8 @@ public class UpdateProfileFragment extends Fragment {
     List<GetCustomer> getCustomers;
     String mobileNumber;
 
+    boolean isAllFieldsChecked = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +73,8 @@ public class UpdateProfileFragment extends Fragment {
         mAddress3 = view.findViewById(R.id.address3);
         mBtnRegister = view.findViewById(R.id.btnSubmit);
         getCustomers = new ArrayList<>();
+
+
 
         if (!checkInternetConnection.isConnectingToInternet()){
             startActivity(new Intent(getContext(), NoConnectionActivity.class));
@@ -124,6 +129,7 @@ public class UpdateProfileFragment extends Fragment {
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String firstName = mFirstName.getText().toString();
                 String lastName = mLastName.getText().toString();
                 String email = mEmail.getText().toString();
@@ -134,19 +140,29 @@ public class UpdateProfileFragment extends Fragment {
 
                 if (TextUtils.isEmpty(firstName)){
                     mFirstName.setError("Empty field");
-                }else if (TextUtils.isEmpty(lastName)){
+                }
+                if (TextUtils.isEmpty(lastName)){
                     mLastName.setError("Empty field");
-                }else if (TextUtils.isEmpty(email)){
+                }
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     mEmail.setError("Empty field");
-                }else if (TextUtils.isEmpty(mobileNumber)){
+                }
+                if (TextUtils.isEmpty(mobileNumber)){
                     mMobileNumber.setError("Empty field");
-                }else if (TextUtils.isEmpty(address1)){
+                }
+                if (TextUtils.isEmpty(address1)){
                     mAddress1.setError("Empty field");
-                }else if (TextUtils.isEmpty(address2)){
+                }
+                if (address2.matches("")){
                     mAddress2.setError("Empty field");
-                }else if (TextUtils.isEmpty(address3)){
+                }
+                if (address3.matches("")){
                     mAddress3.setError("Empty field");
-                }else {
+                }
+
+                isAllFieldsChecked = CheckAllFields();
+
+                if (isAllFieldsChecked) {
 
                     if (!checkInternetConnection.isConnectingToInternet()){
                         startActivity(new Intent(getContext(), NoConnectionActivity.class));
@@ -194,5 +210,47 @@ public class UpdateProfileFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private boolean CheckAllFields() {
+
+        String firstName = mFirstName.getText().toString();
+        String lastName = mLastName.getText().toString();
+        String email = mEmail.getText().toString();
+        String mobileNumber = mMobileNumber.getText().toString();
+        String address1 = mAddress1.getText().toString();
+        String address2 = mAddress2.getText().toString();
+        String address3 = mAddress3.getText().toString();
+
+        if (TextUtils.isEmpty(firstName)){
+            mFirstName.setError("Empty field");
+            return false;
+        }
+        if (TextUtils.isEmpty(lastName)){
+            mLastName.setError("Empty field");
+            return false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            mEmail.setError("Empty field");
+            return false;
+        }
+        if (TextUtils.isEmpty(mobileNumber)){
+            mMobileNumber.setError("Empty field");
+            return false;
+        }
+        if (TextUtils.isEmpty(address1)){
+            mAddress1.setError("Empty field");
+            return false;
+        }
+        if (address2.matches("")){
+            mAddress2.setError("Empty field");
+            return false;
+        }
+        if (address3.matches("")){
+            mAddress3.setError("Empty field");
+            return false;
+        }
+
+        return true;
     }
 }
