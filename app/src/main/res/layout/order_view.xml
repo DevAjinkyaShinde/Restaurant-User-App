@@ -18,9 +18,9 @@
 
         <TextView
             android:id="@+id/orderId"
-            android:layout_marginTop="1dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:text="#00"
             tools:ignore="HardcodedText" />
 
@@ -28,8 +28,8 @@
             android:id="@+id/textTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/candal"
             android:layout_below="@id/orderId"
+            android:fontFamily="@font/candal"
             android:text="Order Total : "
             android:textColor="@color/regular"
             android:textSize="17sp"

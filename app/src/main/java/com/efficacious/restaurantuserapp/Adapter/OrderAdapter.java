@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,7 +44,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.mOrderId.setText("#" + userWiseTakeAwayOrders.get(position).getOrderId());
+        holder.mOrderId.setText("Order ID : #" + userWiseTakeAwayOrders.get(position).getOrderId());
         holder.mDate.setText(userWiseTakeAwayOrders.get(position).getCreatedDate());
         String status = userWiseTakeAwayOrders.get(position).getStatus();
 
@@ -63,9 +64,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
 
         String total = String.valueOf(userWiseTakeAwayOrders.get(position).getTotal());
 
-        if (total.equalsIgnoreCase("")){
-            holder.mTotal.setText("₹ 00");
-        }else {
+        if (!TextUtils.isEmpty(total) && total!=null && !total.equals("null")){
+//            holder.mTotal.setText("Wait for bill");
             holder.mTotal.setText("₹" + total);
         }
 
