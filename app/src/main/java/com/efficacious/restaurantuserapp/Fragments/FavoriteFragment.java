@@ -48,6 +48,13 @@ public class FavoriteFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
+        view.findViewById(R.id.header_title).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStack();
+            }
+        });
+
         return view;
     }
 
