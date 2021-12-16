@@ -67,7 +67,8 @@ public class HistoryFragment extends Fragment {
         view.findViewById(R.id.header_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().popBackStack();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment())
+                        .disallowAddToBackStack().commit();
             }
         });
 
