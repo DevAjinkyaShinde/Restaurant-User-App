@@ -50,6 +50,9 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
+        ImageView imageView = view.findViewById(R.id.empty);
+        TextView textView = view.findViewById(R.id.emptyTxt);
+
         checkInternetConnection = new CheckInternetConnection(getContext());
         if (!checkInternetConnection.isConnectingToInternet()){
             startActivity(new Intent(getContext(), NoConnectionActivity.class));
@@ -60,6 +63,9 @@ public class SearchFragment extends Fragment {
             recyclerView = view.findViewById(R.id.recycleView);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+
+            imageView.setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
         }
 
         btnSearch = view.findViewById(R.id.search);
@@ -103,7 +109,6 @@ public class SearchFragment extends Fragment {
         if (temp.size() == 0){
             imageView.setVisibility(View.VISIBLE);
             textView.setVisibility(View.VISIBLE);
-            temp.clear();
         }else {
             imageView.setVisibility(View.GONE);
             textView.setVisibility(View.GONE);

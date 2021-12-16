@@ -84,15 +84,4 @@ public class MainActivity extends AppCompatActivity {
                 .allowMainThreadQueries().build();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        BottomNavigationView bottomNavigationView = findViewById(R.id.navBar);
-        BadgeDrawable badgeDrawable = bottomNavigationView.getBadge(R.id.cart);
-        int size = menuData.size();
-        if (size>0){
-            if (badgeDrawable == null)
-                bottomNavigationView.getOrCreateBadge(R.id.cart).setNumber(size);
-        }
-    }
 }

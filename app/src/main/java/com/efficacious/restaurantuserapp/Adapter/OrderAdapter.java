@@ -65,8 +65,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
         String total = String.valueOf(userWiseTakeAwayOrders.get(position).getTotal());
 
         if (!TextUtils.isEmpty(total) && total!=null && !total.equals("null")){
-//            holder.mTotal.setText("Wait for bill");
             holder.mTotal.setText("₹" + total);
+        }else {
+            holder.mTotal.setVisibility(View.GONE);
+            holder.mTextTotal.setVisibility(View.GONE);
         }
 
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +94,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTotal;
+        TextView mTotal,mTextTotal;
         TextView mDate,mOrderId;
         TextView mStatus;
         ImageView mIcon;
@@ -101,6 +103,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
             super(itemView);
 
             mTotal = itemView.findViewById(R.id.Total);
+            mTextTotal = itemView.findViewById(R.id.textTotal);
             mDate = itemView.findViewById(R.id.date);
             mOrderId = itemView.findViewById(R.id.orderId);
             mStatus = itemView.findViewById(R.id.status);
