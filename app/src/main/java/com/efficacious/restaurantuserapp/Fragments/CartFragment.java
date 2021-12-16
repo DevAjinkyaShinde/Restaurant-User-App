@@ -122,6 +122,13 @@ public class CartFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.header_title).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStack();
+            }
+        });
+
         return view;
     }
 
