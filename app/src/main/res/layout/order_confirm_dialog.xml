@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text2"
             android:layout_margin="20dp"
-            android:text="Check order status"
+            android:text="Done"
             android:fontFamily="@font/baloo_da"/>
 
     </RelativeLayout>

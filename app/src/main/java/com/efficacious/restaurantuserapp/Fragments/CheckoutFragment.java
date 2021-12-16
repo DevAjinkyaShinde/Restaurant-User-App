@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.efficacious.restaurantuserapp.Activity.MainActivity;
 import com.efficacious.restaurantuserapp.Activity.NoConnectionActivity;
 import com.efficacious.restaurantuserapp.Model.CustomerDetailsResponse;
 import com.efficacious.restaurantuserapp.Model.GetCustomer;
@@ -248,9 +249,10 @@ public class CheckoutFragment extends Fragment {
                                 btnAddMore.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        getFragmentManager().beginTransaction().replace(R.id.fragment_container,new HistoryFragment())
-                                                .disallowAddToBackStack()
-                                                .commit();
+//                                        getFragmentManager().beginTransaction().replace(R.id.fragment_container,new HistoryFragment())
+//                                                .disallowAddToBackStack()
+//                                                .commit();
+                                        startActivity(new Intent(getContext(),MainActivity.class));
                                         dialog.dismiss();
                                     }
                                 });

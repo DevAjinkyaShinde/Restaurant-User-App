@@ -84,7 +84,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                     }
                 });
 
-                Button btnClose = dialog.findViewById(R.id.btnClose);
+                ImageView btnClose = dialog.findViewById(R.id.btnClose);
                 btnClose.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
