@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         int size = menuData.size();
         if (size>0){
             if (badgeDrawable == null)
-                bottomNavigationView.getOrCreateBadge(R.id.cart);
+                bottomNavigationView.getOrCreateBadge(R.id.cart).setNumber(size);
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -82,5 +82,17 @@ public class MainActivity extends AppCompatActivity {
     private void setLocalDatabase(){
         menuDatabase = Room.databaseBuilder(getApplicationContext(), MenuDatabase.class,"MenuDB")
                 .allowMainThreadQueries().build();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navBar);
+        BadgeDrawable badgeDrawable = bottomNavigationView.getBadge(R.id.cart);
+        int size = menuData.size();
+        if (size>0){
+            if (badgeDrawable == null)
+                bottomNavigationView.getOrCreateBadge(R.id.cart).setNumber(size);
+        }
     }
 }

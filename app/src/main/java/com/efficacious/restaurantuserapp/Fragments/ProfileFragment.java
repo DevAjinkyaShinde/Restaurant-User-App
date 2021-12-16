@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,6 +31,7 @@ import com.efficacious.restaurantuserapp.util.Constant;
 import com.efficacious.restaurantuserapp.util.SharedPrefManger;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.List;
@@ -159,6 +161,10 @@ public class ProfileFragment extends Fragment {
                 getFragmentManager().popBackStack();
             }
         });
+
+
+
+
 
         return view;
     }

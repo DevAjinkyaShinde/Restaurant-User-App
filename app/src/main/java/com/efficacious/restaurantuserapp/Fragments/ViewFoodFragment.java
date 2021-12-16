@@ -2,6 +2,7 @@ package com.efficacious.restaurantuserapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,15 +16,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.efficacious.restaurantuserapp.Activity.MainActivity;
 import com.efficacious.restaurantuserapp.R;
 import com.efficacious.restaurantuserapp.RoomDatabase.FavoriteMenu;
 import com.efficacious.restaurantuserapp.RoomDatabase.FavoriteMenuDatabase;
 import com.efficacious.restaurantuserapp.RoomDatabase.MenuData;
 import com.efficacious.restaurantuserapp.RoomDatabase.MenuDatabase;
 import com.efficacious.restaurantuserapp.util.Constant;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewFoodFragment extends Fragment {
 
@@ -99,18 +107,20 @@ public class ViewFoodFragment extends Fragment {
                 btnAddMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        getFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment())
-                                .addToBackStack(null)
-                                .commit();
+//                        getFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment())
+//                                .addToBackStack(null)
+//                                .commit();
+                        startActivity(new Intent(getContext(), MainActivity.class));
                         dialog.dismiss();
                     }
                 });
 
-                Button btnClose = dialog.findViewById(R.id.btnClose);
+                ImageView btnClose = dialog.findViewById(R.id.btnClose);
                 btnClose.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
+                        startActivity(new Intent(getContext(), MainActivity.class));
                     }
                 });
 
@@ -123,6 +133,8 @@ public class ViewFoodFragment extends Fragment {
                 getFragmentManager().popBackStack();
             }
         });
+
+
 
         return view;
     }
