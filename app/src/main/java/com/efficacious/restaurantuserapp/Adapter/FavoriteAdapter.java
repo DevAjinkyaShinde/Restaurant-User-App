@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,9 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.efficacious.restaurantuserapp.Activity.MainActivity;
 import com.efficacious.restaurantuserapp.R;
 import com.efficacious.restaurantuserapp.RoomDatabase.FavoriteMenu;
 import com.efficacious.restaurantuserapp.RoomDatabase.FavoriteMenuDatabase;
@@ -75,6 +78,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                 btnAddMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        AppCompatActivity activity = (AppCompatActivity) context;
+                        activity.startActivity(new Intent(context, MainActivity.class));
                         dialog.dismiss();
                     }
                 });
