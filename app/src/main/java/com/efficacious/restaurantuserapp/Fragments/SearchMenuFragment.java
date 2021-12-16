@@ -13,15 +13,23 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.efficacious.restaurantuserapp.Activity.NoConnectionActivity;
 import com.efficacious.restaurantuserapp.Adapter.MenuAdapter;
+import com.efficacious.restaurantuserapp.Adapter.SearchCategoryAdapter;
 import com.efficacious.restaurantuserapp.Adapter.SearchMenuAdapter;
+import com.efficacious.restaurantuserapp.Model.MenuCategoryDetail;
+import com.efficacious.restaurantuserapp.Model.MenuCategoryResponse;
 import com.efficacious.restaurantuserapp.Model.MenuDetail;
 import com.efficacious.restaurantuserapp.Model.MenuResponse;
 import com.efficacious.restaurantuserapp.R;
@@ -42,6 +50,7 @@ public class SearchMenuFragment extends Fragment {
     RecyclerView menuRecyclerView;
     CheckInternetConnection checkInternetConnection;
     String CategoryId;
+    EditText btnSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +84,51 @@ public class SearchMenuFragment extends Fragment {
             }
         });
 
+        btnSearch = view.findViewById(R.id.search);
+
+        btnSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //after the change calling the method and passing the search input
+                filter(editable.toString(),view);
+            }
+        });
+
         return view;
+    }
+
+    private void filter(String text, View view) {
+        ImageView imageView = view.findViewById(R.id.empty);
+        TextView textView = view.findViewById(R.id.emptyTxt);
+
+        List<MenuDetail> temp = new ArrayList();
+
+        for(MenuDetail menu: menuDetail){
+            //or use .equal(text) with you want equal match
+            //use .toLowerCase() for better matches
+            if(menu.getMenuName().contains(text)){
+                temp.add(menu);
+            }
+        }
+        //update recyclerview
+        menuAdapter.updateList(temp);
+        if (temp.size() == 0){
+            imageView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
+        }else {
+            imageView.setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
+        }
     }
 
     private void menuList(String id) {

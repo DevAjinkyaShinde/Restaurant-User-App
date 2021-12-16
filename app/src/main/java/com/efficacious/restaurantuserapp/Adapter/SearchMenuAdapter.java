@@ -65,6 +65,11 @@ public class SearchMenuAdapter extends RecyclerView.Adapter<SearchMenuAdapter.Vi
         return menuDetail.size();
     }
 
+    public void updateList(List<MenuDetail> temp) {
+        menuDetail = temp;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView foodImg;
         TextView foodName;
