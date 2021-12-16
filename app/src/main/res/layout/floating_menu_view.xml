@@ -38,6 +38,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/candal"
+            android:clickable="false"
             android:text="$20"
             android:textColor="@color/white"
             android:textSize="19sp"
