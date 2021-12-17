@@ -1,5 +1,6 @@
 package com.efficacious.restaurantuserapp.Activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,8 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.efficacious.restaurantuserapp.R;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.hbb20.CountryCodePicker;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -21,14 +27,14 @@ public class RegisterActivity extends AppCompatActivity {
     Button mBtnContinue;
     TextView mBtnLogin;
 
-//    FirebaseFirestore firebaseFirestore;
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-//        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         mCpp = findViewById(R.id.cpp);
         mMobileNumber = findViewById(R.id.mobileNumber);
@@ -48,14 +54,27 @@ public class RegisterActivity extends AppCompatActivity {
                 }else if (TextUtils.isEmpty(name)){
                     mName.setError("Name");
                 }else {
-                    mBtnContinue.setVisibility(View.INVISIBLE);
-                    progressBar.setVisibility(View.VISIBLE);
-                    Intent intent = new Intent(RegisterActivity.this, RegisterOtpActivity.class);
-                    intent.putExtra("MobileNumber",mCpp.getFullNumberWithPlus().replace(" ",""));
-                    intent.putExtra("WithoutCCMobile", mobileNumber);
-                    intent.putExtra("Name",name);
-                    startActivity(intent);
-                    finish();
+
+                    firebaseFirestore.collection("UserData")
+                            .whereEqualTo("MobileNumber",mCpp.getFullNumberWithPlus())
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                    if (!value.isEmpty()){
+                                        mBtnContinue.setVisibility(View.VISIBLE);
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        mMobileNumber.setError("Mobile number already register");
+                                        Toast.makeText(RegisterActivity.this, "Mobile number already register", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Intent intent = new Intent(RegisterActivity.this, RegisterOtpActivity.class);
+                                        intent.putExtra("MobileNumber",mCpp.getFullNumberWithPlus().replace(" ",""));
+                                        intent.putExtra("WithoutCCMobile", mobileNumber);
+                                        intent.putExtra("Name",name);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
+                            });
                 }
             }
         });
