@@ -65,6 +65,9 @@ public class RegisterOtpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_otp);
 
+        TextView textView = findViewById(R.id.timer);
+        countDown(textView);
+
         sharedPrefManger = new SharedPrefManger(getApplicationContext());
         checkInternetConnection = new CheckInternetConnection(getApplicationContext());
 
@@ -267,6 +270,34 @@ public class RegisterOtpActivity extends AppCompatActivity {
                 });
             }
         }.start();
+    }
+
+    private void countDown(TextView textView) {
+        new CountDownTimer(50000, 1500){
+            @SuppressLint("SetTextI18n")
+            public void onTick(long millisUntilFinished){
+                long sec = (millisUntilFinished / 1000) % 60;
+                textView.setText(String.valueOf(sec) + " Sec");
+
+            }
+            @SuppressLint("SetTextI18n")
+            public  void onFinish(){
+                textView.setText("Resend OTP?");
+
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        resendOtp(textView);
+                    }
+                });
+            }
+        }.start();
+    }
+
+    private void resendOtp(TextView textView) {
+        InitiateOtp();
+        countDown(textView);
+        Toast.makeText(RegisterOtpActivity.this, "OTP resend..", Toast.LENGTH_SHORT).show();
     }
 
 }
