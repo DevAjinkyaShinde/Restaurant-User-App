@@ -62,6 +62,9 @@ public class LoginOtpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_otp);
 
+        TextView textView = findViewById(R.id.timer);
+        countDown(textView);
+
         sharedPrefManger = new SharedPrefManger(getApplicationContext());
         checkInternetConnection = new CheckInternetConnection(getApplicationContext());
 
@@ -91,6 +94,8 @@ public class LoginOtpActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     private void InitiateOtp() {
@@ -183,10 +188,9 @@ public class LoginOtpActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        TextView textView = findViewById(R.id.timer);
+
+
+    private void countDown(TextView textView) {
         new CountDownTimer(50000, 1500){
             @SuppressLint("SetTextI18n")
             public void onTick(long millisUntilFinished){
@@ -201,12 +205,17 @@ public class LoginOtpActivity extends AppCompatActivity {
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(LoginOtpActivity.this,LoginActivity.class));
-                        finish();
+                        resendOtp(textView);
                     }
                 });
             }
         }.start();
+    }
+
+    private void resendOtp(TextView textView) {
+        InitiateOtp();
+        countDown(textView);
+        Toast.makeText(LoginOtpActivity.this, "OTP resend..", Toast.LENGTH_SHORT).show();
     }
 
 }
