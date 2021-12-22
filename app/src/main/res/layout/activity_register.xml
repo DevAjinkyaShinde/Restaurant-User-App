@@ -87,11 +87,12 @@
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already User? Login"
-        android:fontFamily="@font/candal"
-        android:textColor="@color/regular"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/btnContinue"
         android:layout_centerHorizontal="true"
+        android:fontFamily="@font/candal"
+        android:text="Already User? Login"
+        android:textColor="@color/regular"
         tools:ignore="HardcodedText" />
 
     <TextView

@@ -73,11 +73,12 @@
         android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New User? Register"
-        android:fontFamily="@font/candal"
-        android:textColor="@color/regular"
         android:layout_below="@id/btnContinue"
         android:layout_centerHorizontal="true"
+        android:fontFamily="@font/candal"
+        android:layout_marginTop="10dp"
+        android:text="New User? Register"
+        android:textColor="@color/regular"
         tools:ignore="HardcodedText" />
 
     <TextView
