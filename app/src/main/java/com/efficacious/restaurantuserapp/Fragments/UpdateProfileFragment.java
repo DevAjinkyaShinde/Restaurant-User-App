@@ -170,6 +170,7 @@ public class UpdateProfileFragment extends Fragment {
                     }else {
                         HashMap<String,Object> map = new HashMap<>();
                         map.put("Name",firstName);
+                        map.put(Constant.ADDRESS_AVAILABLE,true);
                         firebaseFirestore.collection("UserData")
                                 .document(firebaseAuth.getCurrentUser().getUid())
                                 .update(map);
@@ -186,6 +187,7 @@ public class UpdateProfileFragment extends Fragment {
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if (response.isSuccessful()){
                                         editor.putBoolean(Constant.ADDRESS_AVAILABLE,true);
+                                        editor.putString(Constant.NAME,firstName);
                                         editor.apply();
                                         editor.commit();
                                         getFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfileFragment())

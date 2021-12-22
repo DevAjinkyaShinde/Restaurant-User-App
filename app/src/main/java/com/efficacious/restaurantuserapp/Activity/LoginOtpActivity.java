@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.efficacious.restaurantuserapp.Model.UserDetail;
 import com.efficacious.restaurantuserapp.R;
 import com.efficacious.restaurantuserapp.WebService.RetrofitClient;
 import com.efficacious.restaurantuserapp.util.CheckInternetConnection;
+import com.efficacious.restaurantuserapp.util.Constant;
 import com.efficacious.restaurantuserapp.util.SharedPrefManger;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,6 +32,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -46,7 +49,7 @@ public class LoginOtpActivity extends AppCompatActivity {
     Button mBtnVerifyOtp;
     EditText mGetOtp;
     String MobileNumber,OtpId,WithoutCCMobile;
-    TextView mMobileNumberTxt;
+    TextView mMobileNumberTxt,countTxt;
 
     public int counter;
 
@@ -62,8 +65,8 @@ public class LoginOtpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_otp);
 
-        TextView textView = findViewById(R.id.timer);
-        countDown(textView);
+        countTxt = findViewById(R.id.timer);
+        countDown();
 
         sharedPrefManger = new SharedPrefManger(getApplicationContext());
         checkInternetConnection = new CheckInternetConnection(getApplicationContext());
@@ -132,7 +135,15 @@ public class LoginOtpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        getUserDetails();
+                        firebaseFirestore.collection("UserData")
+                                .document(firebaseAuth.getCurrentUser().getUid())
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                boolean addressFound = task.getResult().getBoolean(Constant.ADDRESS_AVAILABLE);
+                                getUserDetails(addressFound);
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -146,7 +157,7 @@ public class LoginOtpActivity extends AppCompatActivity {
         });
     }
 
-    private void getUserDetails() {
+    private void getUserDetails(boolean addressFound) {
         if (!checkInternetConnection.isConnectingToInternet()){
             startActivity(new Intent(LoginOtpActivity.this,NoConnectionActivity.class));
             finish();
@@ -170,6 +181,14 @@ public class LoginOtpActivity extends AppCompatActivity {
                             List<UserDetail> userDetails = new ArrayList<>();
                             userDetails.addAll(Collections.singleton(userDetail));
                             sharedPrefManger.saveUserDetail(userDetails);
+
+                            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constant.USER_DATA_SHARED_PREF,0);
+                            SharedPreferences.Editor editor;
+                            editor = sharedPreferences.edit();
+                            editor.putBoolean(Constant.ADDRESS_AVAILABLE,addressFound);
+                            editor.apply();
+                            editor.commit();
+
                             Intent intent = new Intent(LoginOtpActivity.this, MainActivity.class);
                             intent.putExtra("Mobile",MobileNumber);
                             startActivity(intent);
@@ -190,31 +209,31 @@ public class LoginOtpActivity extends AppCompatActivity {
 
 
 
-    private void countDown(TextView textView) {
-        new CountDownTimer(50000, 1500){
+    private void countDown() {
+        new CountDownTimer(50000, 1000){
             @SuppressLint("SetTextI18n")
             public void onTick(long millisUntilFinished){
                 long sec = (millisUntilFinished / 1000) % 60;
-                textView.setText(String.valueOf(sec) + " Sec");
+                countTxt.setText(String.valueOf(sec) + " Sec");
 
             }
             @SuppressLint("SetTextI18n")
             public  void onFinish(){
-                textView.setText("Resend OTP?");
+                countTxt.setText("Resend OTP?");
 
-                textView.setOnClickListener(new View.OnClickListener() {
+                countTxt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        resendOtp(textView);
+                        resendOtp();
                     }
                 });
             }
         }.start();
     }
 
-    private void resendOtp(TextView textView) {
+    private void resendOtp() {
         InitiateOtp();
-        countDown(textView);
+        countDown();
         Toast.makeText(LoginOtpActivity.this, "OTP resend..", Toast.LENGTH_SHORT).show();
     }
 

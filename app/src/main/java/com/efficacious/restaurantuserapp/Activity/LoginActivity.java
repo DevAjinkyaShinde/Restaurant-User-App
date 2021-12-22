@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
                                         intent.putExtra("MobileNumber",mCpp.getFullNumberWithPlus().replace(" ",""));
                                         intent.putExtra("WithoutCCMobile", mobileNumber);
                                         startActivity(intent);
-                                        finish();
                                     }else {
                                         mBtnContinue.setVisibility(View.VISIBLE);
                                         progressBar.setVisibility(View.INVISIBLE);

@@ -64,14 +64,12 @@ public class RegisterActivity extends AppCompatActivity {
                                         mBtnContinue.setVisibility(View.VISIBLE);
                                         progressBar.setVisibility(View.INVISIBLE);
                                         mMobileNumber.setError("Mobile number already register");
-                                        Toast.makeText(RegisterActivity.this, "Mobile number already register", Toast.LENGTH_SHORT).show();
                                     }else {
                                         Intent intent = new Intent(RegisterActivity.this, RegisterOtpActivity.class);
                                         intent.putExtra("MobileNumber",mCpp.getFullNumberWithPlus().replace(" ",""));
                                         intent.putExtra("WithoutCCMobile", mobileNumber);
                                         intent.putExtra("Name",name);
                                         startActivity(intent);
-                                        finish();
                                     }
                                 }
                             });

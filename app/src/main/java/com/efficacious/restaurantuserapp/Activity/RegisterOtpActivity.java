@@ -24,6 +24,7 @@ import com.efficacious.restaurantuserapp.Model.UserDetail;
 import com.efficacious.restaurantuserapp.R;
 import com.efficacious.restaurantuserapp.WebService.RetrofitClient;
 import com.efficacious.restaurantuserapp.util.CheckInternetConnection;
+import com.efficacious.restaurantuserapp.util.Constant;
 import com.efficacious.restaurantuserapp.util.SharedPrefManger;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -145,6 +146,7 @@ public class RegisterOtpActivity extends AppCompatActivity {
                             map.put("MobileNumber",MobileNumber);
                             map.put("Name",Name);
                             map.put("WithoutCCMobile",WithoutCCMobile);
+                            map.put(Constant.ADDRESS_AVAILABLE,false);
 
                             firebaseFirestore.collection("UserData")
                                     .document(firebaseAuth.getCurrentUser().getUid())
@@ -246,34 +248,8 @@ public class RegisterOtpActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        TextView textView = findViewById(R.id.timer);
-        new CountDownTimer(50000, 1500){
-            @SuppressLint("SetTextI18n")
-            public void onTick(long millisUntilFinished){
-                long sec = (millisUntilFinished / 1000) % 60;
-                textView.setText(String.valueOf(sec) + " Sec");
-
-            }
-            @SuppressLint("SetTextI18n")
-            public  void onFinish(){
-                textView.setText("Resend OTP?");
-
-                textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(RegisterOtpActivity.this,LoginActivity.class));
-                        finish();
-                    }
-                });
-            }
-        }.start();
-    }
-
     private void countDown(TextView textView) {
-        new CountDownTimer(50000, 1500){
+        new CountDownTimer(50000, 1000){
             @SuppressLint("SetTextI18n")
             public void onTick(long millisUntilFinished){
                 long sec = (millisUntilFinished / 1000) % 60;
