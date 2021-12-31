@@ -5,6 +5,7 @@ import static com.airbnb.lottie.L.TAG;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -119,41 +120,23 @@ public class CheckoutFragment extends Fragment {
         view.findViewById(R.id.btnConfirmOrder).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constant.USER_DATA_SHARED_PREF,0);
-                int RegisterId = sharedPreferences.getInt(Constant.REGISTER_ID,0);
-                String timeStamp = String.valueOf(System.currentTimeMillis());
-                Log.d(TAG, "timeStamp: " + timeStamp);
-                TakeOrderDetail takeOrderDetail = new TakeOrderDetail(Constant.TAKEAWAY,RegisterId,0,null,1,0,1,null,"No", Constant.TAKEAWAY,timeStamp);
+                int total = 0;
+                for (int i=0;i<menuData.size();i++){
+                    total += menuData.get(i).getPrice();
+                }
 
-
-                if (!checkInternetConnection.isConnectingToInternet()){
-                    startActivity(new Intent(getContext(), NoConnectionActivity.class));
-                    getActivity().finish();
-                }else {
-                    try {
-                        Call<ResponseBody> call = RetrofitClient
-                                .getInstance()
-                                .getApi()
-                                .getOrder("insert",takeOrderDetail);
-
-                        call.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if (response.isSuccessful()){
-                                    Log.d(TAG, "onResponse: " + response.body().toString());
-                                    TakeAwayOrderId(timeStamp);
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toast.makeText(getContext(), "Error : " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                    }catch (Exception e){
-                        Toast.makeText(getContext(), "Api Error", Toast.LENGTH_SHORT).show();
-                    }
+                if (total<299){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Order is below ₹299 !!");
+                    builder.setMessage("₹99 delivery charges apply on order.");
+                    builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            bookOrder();
+                        }
+                    });
+                    builder.setNegativeButton("Cancel",null);
+                    builder.show();
                 }
             }
         });
@@ -166,6 +149,46 @@ public class CheckoutFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void bookOrder() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constant.USER_DATA_SHARED_PREF,0);
+        int RegisterId = sharedPreferences.getInt(Constant.REGISTER_ID,0);
+        Toast.makeText(getContext(), String.valueOf(RegisterId), Toast.LENGTH_SHORT).show();
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        Log.d(TAG, "timeStamp: " + timeStamp);
+        TakeOrderDetail takeOrderDetail = new TakeOrderDetail(Constant.TAKEAWAY,RegisterId,0,null,1,0,1,null,"No", Constant.TAKEAWAY,timeStamp);
+
+
+        if (!checkInternetConnection.isConnectingToInternet()){
+            startActivity(new Intent(getContext(), NoConnectionActivity.class));
+            getActivity().finish();
+        }else {
+            try {
+                Call<ResponseBody> call = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .getOrder("insert",takeOrderDetail);
+
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()){
+                            Log.d(TAG, "onResponse: " + response.body().toString());
+                            TakeAwayOrderId(timeStamp);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(getContext(), "Error : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }catch (Exception e){
+                Toast.makeText(getContext(), "Api Error", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void TakeAwayOrderId(String timeStamp) {
