@@ -22,6 +22,7 @@ import com.efficacious.restaurantuserapp.Model.MenuResponse;
 import com.efficacious.restaurantuserapp.R;
 import com.efficacious.restaurantuserapp.WebService.RetrofitClient;
 import com.efficacious.restaurantuserapp.util.CheckInternetConnection;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +40,14 @@ public class ViewOrderDetailFragment extends Fragment {
     List<GetExistingOrderDetail> getExistingOrderDetails;
     RecyclerView recyclerView;
 
+    FloatingActionButton btnTrackOrder;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_order_detail, container, false);
 
+        btnTrackOrder = view.findViewById(R.id.btnTrackOrder);
         Bundle bundle = this.getArguments();
 
         if(bundle != null){
@@ -67,6 +71,14 @@ public class ViewOrderDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().popBackStack();
+            }
+        });
+
+        btnTrackOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new MapsFragment())
+//                        .addToBackStack(null).commit();
             }
         });
 

@@ -56,7 +56,6 @@ public class HistoryFragment extends Fragment {
             startActivity(new Intent(getContext(), NoConnectionActivity.class));
             getActivity().finish();
         }else {
-
             userWiseTakeAwayOrders = new ArrayList<>();
             historyData();
             recyclerView = view.findViewById(R.id.recycleView);

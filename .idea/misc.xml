@@ -9,6 +9,7 @@
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.26205128205128203" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.26205128205128203" />
+        <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/drawable/ic_baseline_remove_circle_24.xml" value="0.26205128205128203" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/drawable/search_bg.xml" value="0.26614583333333336" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/drawable/tab_indicator_bg.xml" value="0.26614583333333336" />
@@ -31,6 +32,8 @@
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_favorite.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_history.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_map.xml" value="0.25" />
+        <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_maps.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_recycle_view.xml" value="0.25" />
         <entry key="..\:/Ajinkya Shinde/Efficacious Project/RestaurantUserApp/app/src/main/res/layout/fragment_search.xml" value="0.25" />
