@@ -31,21 +31,24 @@
 
     <EditText
         android:id="@+id/mobileNumber"
-        android:layout_below="@id/cpp"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cpp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:autofillHints="no"
+        android:background="@drawable/edit_txt_bg"
         android:fontFamily="@font/candal"
         android:gravity="center"
-        android:background="@drawable/edit_txt_bg"
-        android:layout_margin="10dp"
-        android:textColor="@color/regular"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:hint="Mobile Number"
+        android:inputType="phone"
         android:maxLength="11"
         android:padding="10dp"
-        android:inputType="phone"
-        tools:ignore="HardcodedText"
-        android:autofillHints="no" />
+        android:textColor="@color/regular"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/name"

@@ -1,6 +1,9 @@
 package com.efficacious.restaurantuserapp.Fragments;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -77,13 +80,42 @@ public class ViewOrderDetailFragment extends Fragment {
         btnTrackOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new MapsFragment())
-//                        .addToBackStack(null).commit();
+
+                Fragment fragment = new OrderStatusFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("OrderId",OrderId);
+                fragment.setArguments(bundle);
+//                convertAddress(strAddress);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment)
+                        .addToBackStack(null).commit();
             }
         });
 
         return view;
     }
+
+    public void convertAddress(String address) {
+        if (address != null && !address.isEmpty()) {
+            try {
+                Geocoder geocoder = new Geocoder(getContext());
+                List<Address> addressList = geocoder.getFromLocationName(address, 1);
+                if (addressList != null && addressList.size() > 0) {
+                    double lat = addressList.get(0).getLatitude();
+                    double lng = addressList.get(0).getLongitude();
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("google.navigation:q="+lat+"," +lng+"&mode=l"));
+                    intent.setPackage("com.google.android.apps.maps");
+
+                    if (intent.resolveActivity(getActivity().getPackageManager())!=null){
+                        startActivity(intent);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } // end catch
+        } // end if
+    } // end convertAddress
 
     private void getOrderData(String resId, String orderId) {
         try {
