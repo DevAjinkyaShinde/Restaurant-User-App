@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/accept" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0.6dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="11dp"
+        android:layout_below="@id/icon"
+        android:background="@color/regular"/>
+
+    <TextView
+        android:id="@+id/status"
+        android:background="@drawable/search_bg"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order Complete"
+        android:layout_toRightOf="@id/icon"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2.5dp"
+        android:textColor="@color/regular"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="09:20 am"
+        android:layout_toRightOf="@id/status"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="10sp"
+        android:textSize="10sp"
+        tools:ignore="HardcodedText" />
+
+</RelativeLayout>

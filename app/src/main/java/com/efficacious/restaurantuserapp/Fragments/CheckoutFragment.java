@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,17 +29,25 @@ import com.efficacious.restaurantuserapp.Activity.MainActivity;
 import com.efficacious.restaurantuserapp.Activity.NoConnectionActivity;
 import com.efficacious.restaurantuserapp.Model.CustomerDetailsResponse;
 import com.efficacious.restaurantuserapp.Model.GetCustomer;
+import com.efficacious.restaurantuserapp.Model.GetFCM;
+import com.efficacious.restaurantuserapp.Model.GetFCMTokenResponse;
 import com.efficacious.restaurantuserapp.Model.GetTakeAwayOrderId;
 import com.efficacious.restaurantuserapp.Model.OrderDetails;
 import com.efficacious.restaurantuserapp.Model.TakeAwayOrderIdResponse;
 import com.efficacious.restaurantuserapp.Model.TakeOrderDetail;
+import com.efficacious.restaurantuserapp.Notification.APIService;
+import com.efficacious.restaurantuserapp.Notification.Client;
+import com.efficacious.restaurantuserapp.Notification.Data;
+import com.efficacious.restaurantuserapp.Notification.NotificationSender;
 import com.efficacious.restaurantuserapp.R;
 import com.efficacious.restaurantuserapp.RoomDatabase.MenuData;
 import com.efficacious.restaurantuserapp.RoomDatabase.MenuDatabase;
 import com.efficacious.restaurantuserapp.WebService.RetrofitClient;
 import com.efficacious.restaurantuserapp.util.CheckInternetConnection;
 import com.efficacious.restaurantuserapp.util.Constant;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -55,13 +64,16 @@ public class CheckoutFragment extends Fragment {
     CheckInternetConnection checkInternetConnection;
     SharedPreferences sharedPreferences;
     List<GetCustomer> getCustomers;
+    List<GetFCM> getFCM;
     Button btnOrder;
     long OrderId;
     String TimeStamp;
     ProgressBar progressBar;
     List<MenuData> menuData;
-
+    String DeliveryStatus = Constant.PICK_UP;
+    RadioButton doorDeliveryRDB,pickUpRDB;
     MenuDatabase menuDatabase;
+    int RegisterId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +85,8 @@ public class CheckoutFragment extends Fragment {
         mUserName = view.findViewById(R.id.userName);
         mMobileNumber = view.findViewById(R.id.mobileNumber);
         btnOrder = view.findViewById(R.id.btnConfirmOrder);
+        doorDeliveryRDB = view.findViewById(R.id.doorDelivery);
+        pickUpRDB = view.findViewById(R.id.pickUp);
 
         mAddress = view.findViewById(R.id.address);
         progressBar = view.findViewById(R.id.loader);
@@ -117,18 +131,35 @@ public class CheckoutFragment extends Fragment {
             }
         }
 
+        //RadioButton
+
+        doorDeliveryRDB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DeliveryStatus = Constant.DOOR_DELIVERY;
+            }
+        });
+
+        pickUpRDB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DeliveryStatus = Constant.PICK_UP;
+            }
+        });
+
         view.findViewById(R.id.btnConfirmOrder).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int total = 0;
                 for (int i=0;i<menuData.size();i++){
-                    total += menuData.get(i).getPrice();
+                    total += menuData.get(i).getPrice() * menuData.get(i).getQty();
                 }
 
                 if (total<299){
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("Order is below ₹299 !!");
                     builder.setMessage("₹99 delivery charges apply on order.");
+                    builder.setCancelable(false);
                     builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -137,6 +168,8 @@ public class CheckoutFragment extends Fragment {
                     });
                     builder.setNegativeButton("Cancel",null);
                     builder.show();
+                }else {
+                    bookOrder();
                 }
             }
         });
@@ -153,8 +186,7 @@ public class CheckoutFragment extends Fragment {
 
     private void bookOrder() {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constant.USER_DATA_SHARED_PREF,0);
-        int RegisterId = sharedPreferences.getInt(Constant.REGISTER_ID,0);
-        Toast.makeText(getContext(), String.valueOf(RegisterId), Toast.LENGTH_SHORT).show();
+        RegisterId = sharedPreferences.getInt(Constant.REGISTER_ID,0);
         String timeStamp = String.valueOf(System.currentTimeMillis());
         Log.d(TAG, "timeStamp: " + timeStamp);
         TakeOrderDetail takeOrderDetail = new TakeOrderDetail(Constant.TAKEAWAY,RegisterId,0,null,1,0,1,null,"No", Constant.TAKEAWAY,timeStamp);
@@ -246,9 +278,10 @@ public class CheckoutFragment extends Fragment {
                 btnOrder.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 OrderDetails orderDetailsData = new OrderDetails(Integer.valueOf(takeAwayOrderId),menuData.get(i).getCategoryName(),
-                        menuData.get(i).getMenuName(),Constant.TAKEAWAY,
-                        0,menuData.get(i).getEmployeeId(),menuData.get(i).getPrice(),menuData.get(i).getQty()
-                        ,null,Constant.TAKEAWAY,Constant.TAKEAWAY,TimeStamp);
+                        menuData.get(i).getMenuName(),Constant.TAKEAWAY,RegisterId
+                        ,menuData.get(i).getEmployeeId(),menuData.get(i).getPrice(),menuData.get(i).getQty()
+                        ,DeliveryStatus,Constant.TAKEAWAY,Constant.TAKEAWAY,TimeStamp);
+
 
                 try {
                     Call<ResponseBody> call = RetrofitClient
@@ -262,19 +295,73 @@ public class CheckoutFragment extends Fragment {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             if (finalI == listSize-1){
+
+                                try {
+                                    Call<GetFCMTokenResponse> FCM_CALL = RetrofitClient
+                                            .getInstance()
+                                            .getApi()
+                                            .getFCMToken("getFCM","1","Manager");
+
+                                    FCM_CALL.enqueue(new Callback<GetFCMTokenResponse>() {
+                                        @Override
+                                        public void onResponse(Call<GetFCMTokenResponse> call, Response<GetFCMTokenResponse> response) {
+                                            getFCM = response.body().getGetFCM();
+                                            String FCMToken = getFCM.get(0).getVchFcmToken();
+                                            String Title = "New Takeaway order #" + OrderId + " arrived";
+                                            String Msg = "Tap to view";
+                                            String flag = Constant.TAKEAWAY_NEW_ORDER;
+                                            sendNotification(FCMToken,Title,Msg,flag);
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<GetFCMTokenResponse> call, Throwable t) {
+
+                                        }
+                                    });
+                                }catch (Exception e){
+
+                                }
+
                                 Dialog dialog = new Dialog(getContext());
                                 dialog.setContentView(R.layout.order_confirm_dialog);
                                 dialog.setCanceledOnTouchOutside(false);
                                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                 dialog.show();
 
-                                Button btnAddMore = dialog.findViewById(R.id.btnCheckStatus);
-                                btnAddMore.setOnClickListener(new View.OnClickListener() {
+                                Button btnCheckout = dialog.findViewById(R.id.btnCheckStatus);
+                                btnCheckout.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
 //                                        getFragmentManager().beginTransaction().replace(R.id.fragment_container,new HistoryFragment())
 //                                                .disallowAddToBackStack()
 //                                                .commit();
+
+
+
+                                        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constant.USER_DATA_SHARED_PREF,0);
+                                        String token = sharedPreferences.getString(Constant.FCM_TOKEN,null);
+
+                                        HashMap<String,Object> map1 = new HashMap<>();
+                                        map1.put("DeliveryStatus",DeliveryStatus);
+                                        map1.put("OrderId",takeAwayOrderId);
+                                        map1.put("Status","TakeAway");
+                                        map1.put("RegisterId",RegisterId);
+                                        map1.put("FCMToken",token);
+                                        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                                        firebaseFirestore.collection("TakeAway")
+                                                .document(takeAwayOrderId).set(map1);
+
+                                        HashMap<String,Object> map = new HashMap<>();
+                                        map.put("OrderId",Integer.parseInt(takeAwayOrderId));
+                                        map.put("TimeStamp",System.currentTimeMillis());
+                                        map.put("Status","Request");
+                                        map.put("DeliveryStatus",DeliveryStatus);
+                                        map.put("RegisterId",RegisterId);
+                                        map.put("FCMToken",token);
+                                        firebaseFirestore.collection("Orders").document(String.valueOf(OrderId))
+                                                .collection("OrderStatus")
+                                                .add(map);
                                         startActivity(new Intent(getContext(),MainActivity.class));
                                         dialog.dismiss();
                                     }
@@ -300,6 +387,25 @@ public class CheckoutFragment extends Fragment {
             }
         }
 
+    }
+
+    private void sendNotification(String token, String title, String msg,String flag) {
+        Data data = new Data(title,msg,flag);
+        NotificationSender notificationSender = new NotificationSender(data,token);
+
+        APIService apiService = Client.getRetrofit().create(APIService.class);
+
+        apiService.sendNotification(notificationSender).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     private void setLocalDatabase(){

@@ -2,6 +2,7 @@ package com.efficacious.restaurantuserapp.WebService;
 
 import com.efficacious.restaurantuserapp.Model.CustomerDetailsResponse;
 import com.efficacious.restaurantuserapp.Model.GetExistingOrderDetailResponse;
+import com.efficacious.restaurantuserapp.Model.GetFCMTokenResponse;
 import com.efficacious.restaurantuserapp.Model.GetUserDetailResponse;
 import com.efficacious.restaurantuserapp.Model.GetUserWiseTakeAwayOrderResponse;
 import com.efficacious.restaurantuserapp.Model.MenuCategoryResponse;
@@ -84,6 +85,13 @@ public interface Api {
             @Query("Command") String command,
             @Query("ResId") String resId,
             @Query("OrderId") String orderId
+    );
+
+    @GET("GetFCM")
+    Call<GetFCMTokenResponse> getFCMToken(
+            @Query("Command") String command,
+            @Query("Res_Id") String ResId,
+            @Query("Status") String Status
     );
 
 }
