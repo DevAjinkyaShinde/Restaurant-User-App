@@ -84,11 +84,24 @@
                         android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="address line"
-                        android:layout_marginLeft="20dp"
                         android:layout_below="@id/userName"
-                        android:maxLines="4"
+                        android:layout_marginLeft="20dp"
                         android:fontFamily="@font/baloo_da"
+                        android:hint="address line"
+                        android:maxLines="4"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/btnEditAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Edit address"
+                        android:textAllCaps="true"
+                        android:textColor="@color/regular"
+                        android:fontFamily="@font/baloo_da"
+                        android:layout_below="@id/mobileNumber"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
                         tools:ignore="HardcodedText" />
 
 

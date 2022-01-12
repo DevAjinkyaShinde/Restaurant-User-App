@@ -131,6 +131,14 @@ public class CheckoutFragment extends Fragment {
             }
         }
 
+        view.findViewById(R.id.btnEditAddress).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new UpdateProfileFragment())
+                        .addToBackStack(null).commit();
+            }
+        });
+
         //RadioButton
 
         doorDeliveryRDB.setOnClickListener(new View.OnClickListener() {
@@ -155,21 +163,23 @@ public class CheckoutFragment extends Fragment {
                     total += menuData.get(i).getPrice() * menuData.get(i).getQty();
                 }
 
-                if (total<299){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Order is below ₹299 !!");
-                    builder.setMessage("₹99 delivery charges apply on order.");
-                    builder.setCancelable(false);
-                    builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            bookOrder();
-                        }
-                    });
-                    builder.setNegativeButton("Cancel",null);
-                    builder.show();
-                }else {
+                if (DeliveryStatus.equalsIgnoreCase(Constant.PICK_UP)){
                     bookOrder();
+                }else if (DeliveryStatus.equalsIgnoreCase(Constant.DOOR_DELIVERY)){
+                    if (total<299){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Order is below ₹299 !!");
+                        builder.setMessage("₹99 delivery charges apply on order.");
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                bookOrder();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel",null);
+                        builder.show();
+                    }
                 }
             }
         });

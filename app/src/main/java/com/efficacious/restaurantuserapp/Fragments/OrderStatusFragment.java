@@ -107,8 +107,12 @@ public class OrderStatusFragment extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
                     String status = task.getResult().getString("Status");
-                    if (status.equalsIgnoreCase("On the way")){
-                        btnOrderTrackOnMap.setVisibility(View.VISIBLE);
+                    try {
+                        if (status.equalsIgnoreCase("On the way")){
+                            btnOrderTrackOnMap.setVisibility(View.VISIBLE);
+                        }
+                    }catch (Exception e){
+
                     }
                 }
             }
