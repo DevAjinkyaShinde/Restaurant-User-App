@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String name = mName.getText().toString();
                 String mobileNumber = mMobileNumber.getText().toString();
-                if (TextUtils.isEmpty(mCpp.getFullNumberWithPlus())){
+                if (TextUtils.isEmpty(mobileNumber)){
                     mMobileNumber.setError("Mobile Number");
                 }else if (TextUtils.isEmpty(name)){
                     mName.setError("Name");
