@@ -80,7 +80,9 @@ public class SearchMenuFragment extends Fragment {
         view.findViewById(R.id.header_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment())
+                        .commit();
             }
         });
 
@@ -167,7 +169,7 @@ public class SearchMenuFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment())
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment())
                         .disallowAddToBackStack()
                         .commit();
             }
