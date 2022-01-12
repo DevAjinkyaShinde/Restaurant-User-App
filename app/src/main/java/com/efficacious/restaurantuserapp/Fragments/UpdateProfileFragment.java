@@ -1,5 +1,6 @@
 package com.efficacious.restaurantuserapp.Fragments;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -215,6 +216,17 @@ public class UpdateProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().popBackStack();
+            }
+        });
+
+        view.findViewById(R.id.mobileNumber).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Register mobile number");
+                builder.setMessage("This register mobile number can't be edit !!");
+                builder.setPositiveButton("OK",null);
+                builder.show();
             }
         });
 
