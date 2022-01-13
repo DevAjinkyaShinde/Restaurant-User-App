@@ -77,11 +77,13 @@ public class ViewFoodFragment extends Fragment {
                     favoriteMenuDatabase.favorite_menu_dao().removeMenu(MenuName);
                     btnAddToFavorite.setText("Add to favorite");
                     btnAddToFavorite.setTextColor(ContextCompat.getColor(getContext(),R.color.secondary));
+                    Toast.makeText(getContext(), "Remove from favorite", Toast.LENGTH_SHORT).show();
                 }else {
                     FavoriteMenu favoriteMenu = new FavoriteMenu(Category,Integer.parseInt(MenuId),"",MenuName,Integer.parseInt(Price),1,0);
                     favoriteMenuDatabase.favorite_menu_dao().favoriteMenuList(favoriteMenu);
                     btnAddToFavorite.setText("Remove to favorite");
                     btnAddToFavorite.setTextColor(ContextCompat.getColor(getContext(),R.color.primary));
+                    Toast.makeText(getContext(), "Add successfully !!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
