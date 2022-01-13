@@ -11,13 +11,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.efficacious.restaurantuserapp.Fragments.CartFragment;
-import com.efficacious.restaurantuserapp.Fragments.FavoriteFragment;
 import com.efficacious.restaurantuserapp.Fragments.HistoryFragment;
 import com.efficacious.restaurantuserapp.Fragments.HomeFragment;
 import com.efficacious.restaurantuserapp.Fragments.ProfileFragment;
@@ -28,8 +24,6 @@ import com.efficacious.restaurantuserapp.util.Constant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -37,12 +31,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.HashMap;
 import java.util.List;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     Fragment fragment;
     MenuDatabase menuDatabase;
@@ -55,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         setLocalDatabase();
         menuData = menuDatabase.dao().getMenuListData();
+
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -135,6 +125,5 @@ public class MainActivity extends AppCompatActivity {
         menuDatabase = Room.databaseBuilder(getApplicationContext(), MenuDatabase.class,"MenuDB")
                 .allowMainThreadQueries().build();
     }
-
 
 }

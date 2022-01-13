@@ -179,6 +179,8 @@ public class CheckoutFragment extends Fragment {
                         });
                         builder.setNegativeButton("Cancel",null);
                         builder.show();
+                    }else {
+                        bookOrder();
                     }
                 }
             }

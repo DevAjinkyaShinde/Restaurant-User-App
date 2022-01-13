@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.efficacious.restaurantuserapp.Fragments.CartFragment;
 import com.efficacious.restaurantuserapp.R;
 import com.efficacious.restaurantuserapp.RoomDatabase.MenuData;
 import com.efficacious.restaurantuserapp.RoomDatabase.MenuDatabase;
@@ -28,6 +29,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     Context context;
     MenuDatabase menuDatabase;
     int count = 1;
+
     public CartAdapter(List<MenuData> menuData) {
         this.menuData = menuData;
     }
@@ -43,11 +45,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        //        Picasso.get().load(cartData[position].getFoodImg()).into(holder.foodImg);
         holder.foodName.setText(menuData.get(position).getMenuName());
         holder.foodPrice.setText(String.valueOf("₹ " + menuData.get(position).getPrice()));
         holder.btnAdd.setText(String.valueOf(menuData.get(position).getQty()));
-//        int count = Integer.parseInt(holder.btnAdd.getText().toString());
 
         holder.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,8 +57,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 count++;
                 int totalPrice = count*price;
                 holder.btnAdd.setText(String.valueOf(count));
-//                holder.foodPrice.setText(String.valueOf(totalPrice));
-
                 menuDatabase.dao().updateMenuList(menuData.get(position).getPrice(),count,menuData.get(position).getMenuName());
             }
         });
@@ -72,16 +70,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     count--;
                     int totalPrice = count*price;
                     holder.btnAdd.setText(String.valueOf(count));
-//                    holder.foodPrice.setText(String.valueOf(totalPrice));
-
                     menuDatabase.dao().updateMenuList(menuData.get(position).getPrice(),count,menuData.get(position).getMenuName());
+
                 }else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Remove form cart !!");
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            int size = menuData.size();
+                            AppCompatActivity activity = (AppCompatActivity) context;
                             menuDatabase.dao().deleteMenu(menuData.get(position).getMenuName());
+                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment())
+                                    .commit();
                             Toast.makeText(context, "Remove successfully !!", Toast.LENGTH_SHORT).show();
                             menuData.remove(position);
                             notifyItemRemoved(position);

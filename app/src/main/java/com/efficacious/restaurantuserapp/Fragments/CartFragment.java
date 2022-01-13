@@ -2,7 +2,6 @@ package com.efficacious.restaurantuserapp.Fragments;
 
 import static com.airbnb.lottie.L.TAG;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +10,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +42,8 @@ import com.efficacious.restaurantuserapp.WebService.RetrofitClient;
 import com.efficacious.restaurantuserapp.util.CheckInternetConnection;
 import com.efficacious.restaurantuserapp.util.Constant;
 import com.efficacious.restaurantuserapp.util.SharedPrefManger;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -57,18 +61,13 @@ public class CartFragment extends Fragment {
     Button btnOrder;
     TextView emptyTxt;
     ImageView empty;
+    CartAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         setLocalDatabase();
         menuData = menuDatabase.dao().getMenuListData();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.cartRecycleView);
-        CartAdapter adapter = new CartAdapter(menuData);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
         btnOrder = view.findViewById(R.id.btnOrder);
         progressBar = view.findViewById(R.id.loader);
@@ -83,6 +82,23 @@ public class CartFragment extends Fragment {
             empty.setVisibility(View.VISIBLE);
             emptyTxt.setVisibility(View.VISIBLE);
         }
+
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.navBar);
+        BadgeDrawable badgeDrawable = bottomNavigationView.getBadge(R.id.cart);
+
+        if (size>0){
+            bottomNavigationView.getOrCreateBadge(R.id.cart).setNumber(size);
+        }else {
+            bottomNavigationView.getOrCreateBadge(R.id.cart).setVisible(false);
+        }
+
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.cartRecycleView);
+        adapter = new CartAdapter(menuData);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         view.findViewById(R.id.btnOrder).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +147,19 @@ public class CartFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+               getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment())
+                       .commit();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     private void setLocalDatabase(){
